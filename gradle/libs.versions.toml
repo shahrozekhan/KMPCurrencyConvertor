@@ -30,6 +30,7 @@ androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" 
 #moko libraries for viewmodels.
 #mvvm-livedata = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mvvmCore" }
 #mvvm-livedata-resources = { module = "dev.icerock.moko:mvvm-livedata-resources", version.ref = "mvvmCore" }
+
 mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mvvmCore" }
 mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mvvmCore" }
 mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow", version.ref = "mvvmCore" }
