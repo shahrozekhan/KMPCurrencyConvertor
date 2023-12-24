@@ -1,0 +1,78 @@
+[versions]
+agp = "8.2.0"
+kotlin = "1.9.21"
+#androidx compose dependencies. Donot remove.
+compose-material3 = "1.1.2"
+compose = "1.5.4"
+compose-compiler = "1.5.7"
+androidx-activityCompose = "1.8.2"
+#Jet brains Multi Platform Compose.
+koin = "3.5.3"
+koin-compose = "1.1.2"
+compose_multiplaform = "1.5.11"
+coreKtx = "1.12.0" # https://developer.android.com/jetpack/androidx/releases/core
+# MVVM
+mvvmCore = "0.16.1"
+#Ktor networking library dependencies...
+ktor_version = "2.3.6"
+
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
+#compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+
+#moko libraries for viewmodels.
+#mvvm-livedata = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mvvmCore" }
+#mvvm-livedata-resources = { module = "dev.icerock.moko:mvvm-livedata-resources", version.ref = "mvvmCore" }
+mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mvvmCore" }
+mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mvvmCore" }
+mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow", version.ref = "mvvmCore" }
+mvvm-flow-compose = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "mvvmCore" }
+mvvm-flow-resources = { group = "dev.icerock.moko", name = "mvvm-flow-resources", version.ref = "mvvmCore" }
+mvvm-livedata-compose = { group = "dev.icerock.moko", name = "mvvm-livedata-compose", version.ref = "mvvmCore" }
+mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "mvvmCore" }
+
+
+#ktor
+#ktor-serialization = {module = "io.ktor:ktor-client-serialization", version.ref = "ktor_version"}
+#ktor-java = {module = "io.ktor:ktor-client-java", version.ref = "ktor_version"}
+#ktor-json = {module = "io.ktor:ktor-client-json", version.ref = "ktor_version"}
+#ktor-client-logging = {module = "io.ktor:ktor-client-logging", version.ref = "ktor_version"}
+#ktor-android = {module = "io.ktor:ktor-client-android", version.ref = "ktor_version"}
+
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor_version" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor_version" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor_version" }
+
+#ios and android
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
+
+#koin for kotlin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+#koin for android
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
+koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+
+[plugins]
+androidApplication = { id = "com.android.application", version.ref = "agp" }
+androidLibrary = { id = "com.android.library", version.ref = "agp" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose_multiplaform" }
+kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]
+moko = ["mvvm-compose", "mvvm-core", "mvvm-flow", "mvvm-flow-compose", "mvvm-flow-resources", "mvvm-livedata-compose", "mvvm-state"]
+koin = ["koin-core", "koin-compose"]
+android-koin = ["koin-androidx-compose", "koin-android"]
