@@ -80,3 +80,10 @@ freeline_project_description.json
 
 # Version control
 vcs.xml
+/.idea/.gitignore
+/.idea/.name
+/.idea/compiler.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/kotlinc.xml
+/.idea/migrations.xml
+/.idea/inspectionProfiles/Project_Default.xml
