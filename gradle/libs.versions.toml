@@ -44,7 +44,6 @@ mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "m
 #ktor-java = {module = "io.ktor:ktor-client-java", version.ref = "ktor_version"}
 #ktor-json = {module = "io.ktor:ktor-client-json", version.ref = "ktor_version"}
 #ktor-client-logging = {module = "io.ktor:ktor-client-logging", version.ref = "ktor_version"}
-#ktor-android = {module = "io.ktor:ktor-client-android", version.ref = "ktor_version"}
 
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
 ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor_version" }
@@ -53,6 +52,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 
 #ios and android
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
+ktor-android = {group = "io.ktor",name="ktor-client-android", version.ref = "ktor_version"}
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
 
 #koin for kotlin

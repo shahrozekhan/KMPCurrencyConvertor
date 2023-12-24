@@ -12,6 +12,7 @@ import com.multiplatform.kmmcc.domain.usecases.exchangerate.ForceSyncExchangeRat
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.GetExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
+import com.multiplatform.kmmcc.platformKoinModule
 import com.multiplatform.kmmcc.presentation.components.ExchangeRateViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -19,7 +20,7 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 
-fun initKoin() = init()
+fun injectKoin() = init()
 
 fun init() = startKoin {
     modules(ApplicationKoinComponentModules)
@@ -27,7 +28,8 @@ fun init() = startKoin {
 
 
 internal val ApplicationKoinComponentModules =
-    appModules() +
+    platformKoinModule() +
+            appModules() +
             provideDispatchers() +
             provideRepositories() +
             provideUseCases() +

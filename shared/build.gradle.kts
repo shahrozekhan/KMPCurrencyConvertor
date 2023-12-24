@@ -61,7 +61,7 @@ kotlin {
 
         androidMain.dependencies {
             api(libs.androidx.coreKtx)
-            implementation(libs.ktor.client.okhttp)
+            implementation(libs.ktor.android)
             implementation(libs.bundles.android.koin)
 
         }

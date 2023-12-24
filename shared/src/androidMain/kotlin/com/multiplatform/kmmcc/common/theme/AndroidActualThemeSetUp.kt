@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.core.view.WindowCompat
+import org.koin.compose.koinInject
 
 private val cache: MutableMap<String, Font> = mutableMapOf()
 

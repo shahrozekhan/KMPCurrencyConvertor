@@ -1,4 +1,4 @@
-package com.shahroze.currencyconvertorandroid.common.enums
+package com.multiplatform.kmmcc.common.enums
 
 enum class HttpMethodType(val type: String) {
     GET("GET"),

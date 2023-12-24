@@ -21,6 +21,7 @@ import com.multiplatform.kmmcc.presentation.components.ExchangeRateScreen
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinApplication
+import org.koin.compose.KoinContext
 
 @OptIn(ExperimentalResourceApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -28,14 +29,10 @@ fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean
 ) {
-    KoinApplication(application = {
-        modules(ApplicationKoinComponentModules)
-    }) {
-        CurrencyConvertorTheme(
-            darkTheme = darkTheme,
-            dynamicColor = dynamicColor
-        ) {
-            ExchangeRateScreen()
-        }
+    CurrencyConvertorTheme(
+        darkTheme = darkTheme,
+        dynamicColor = dynamicColor
+    ) {
+        ExchangeRateScreen()
     }
 }
