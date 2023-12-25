@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.data.gateway
+package com.multiplatform.kmmcc.data.sources.remote.gateway
 
 import com.multiplatform.kmmcc.data.dto.ExchangeRateResponseDto
 import com.multiplatform.kmmcc.di.ExchangeRateHttpConstants

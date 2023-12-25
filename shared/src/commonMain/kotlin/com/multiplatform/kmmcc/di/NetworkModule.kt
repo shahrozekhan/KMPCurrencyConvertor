@@ -21,6 +21,7 @@ object ExchangeRateHttpConstants {
 
 val httpClientModule = module {
     single {
+        //get function takes the Platform Specific engine
         val httpClient = HttpClient(get()) {
             install(ContentNegotiation) {
                 json(json = Json { ignoreUnknownKeys = true }, contentType = ContentType.Any)

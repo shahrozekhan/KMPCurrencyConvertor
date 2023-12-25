@@ -1,10 +1,13 @@
 package com.multiplatform.kmmcc.di
 
-import com.multiplatform.kmmcc.data.gateway.ExchangeRateGateway
+import com.multiplatform.kmmcc.common.KMMContext
+import com.multiplatform.kmmcc.common.KMMPreferences
+import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
 import com.multiplatform.kmmcc.data.repository.ExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.repository.FavoriteExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
-import com.multiplatform.kmmcc.data.sources.KtorServiceHelper
+import com.multiplatform.kmmcc.data.sources.local.AppPreferences
+import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import com.multiplatform.kmmcc.domain.repository.FavoriteExchangeRateRepository
 import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertExchangeRateUseCase
@@ -22,14 +25,14 @@ import org.koin.dsl.module
 
 fun injectKoin() = init()
 
-fun init() = startKoin {
+internal fun init() = startKoin {
     modules(ApplicationKoinComponentModules)
 }
 
 
 internal val ApplicationKoinComponentModules =
     platformKoinModule() +
-            appModules() +
+            commonMainModules() +
             provideDispatchers() +
             provideRepositories() +
             provideUseCases() +
@@ -38,22 +41,22 @@ internal val ApplicationKoinComponentModules =
             httpClientModule
 
 
-fun provideDispatchers() = module {
+internal fun provideDispatchers() = module {
     single { Dispatchers.IO }
     single { Dispatchers.Main }
     single { Dispatchers.Default }
 }
 
-fun provideRepositories() = module {
-    factory<ExchangeRateRepository> { ExchangeRateRepositoryImpl(get(), get()) }
+internal fun provideRepositories() = module {
+    factory<ExchangeRateRepository> { ExchangeRateRepositoryImpl(get(), get(), get()) }
     factory<FavoriteExchangeRateRepository> { FavoriteExchangeRateRepositoryImpl(get()) }
 }
 
-fun provideUseCases() = module {
+internal fun provideUseCases() = module {
 
     factory { ConvertExchangeRateUseCase(get()) }
     factory { ForceSyncExchangeRatesUseCase(get(), get()) }
-    factory { GetExchangeRateUseCase(get(), get()) }
+    factory { GetExchangeRateUseCase(get(), get(),get()) }
     factory { GetFavoriteExchangeRateUseCase(get()) }
     factory { MarkExchangeRateToFavoriteUseCase(get(), get()) }
 
@@ -67,7 +70,10 @@ fun provideGatway() = module {
     single { ExchangeRateGateway(get()) }
 }
 
-fun appModules() = module {
+fun commonMainModules() = module {
     single { RemoteErrorParser() }
     single { KtorServiceHelper(get()) }
+    single { KMMContext() }
+    single { KMMPreferences(get()) }
+    single { AppPreferences(get()) }
 }

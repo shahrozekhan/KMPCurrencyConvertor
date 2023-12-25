@@ -1,14 +1,16 @@
 package com.multiplatform.kmmcc.data.repository
 
+import com.multiplatform.kmmcc.common.KMMContext
+import com.multiplatform.kmmcc.common.KMMPreferences
 import com.multiplatform.kmmcc.common.base.RemoteResource
 import com.multiplatform.kmmcc.common.base.Resource
 import com.multiplatform.kmmcc.common.utils.buildExchangeRateDtoListSortedByCurrency
 import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
-import com.multiplatform.kmmcc.data.gateway.ExchangeRateGateway
-import com.multiplatform.kmmcc.data.sources.KtorServiceHelper
+import com.multiplatform.kmmcc.data.sources.local.AppPreferences
+import com.multiplatform.kmmcc.data.sources.local.PreferenceKeys
+import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
+import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 
 //Error Handling in Repository.
 class ExchangeRateRepositoryImpl(
@@ -18,7 +20,7 @@ class ExchangeRateRepositoryImpl(
 //    private val defaultDispatcher: CoroutineDispatcher,
 //    private val ioDispatcher: CoroutineDispatcher,
 //    private val fileDataSource: AssetFileHelper,
-//    private val appPreferences: AppPreferences
+    private val appPreferences: AppPreferences
 ) : ExchangeRateRepository {
     //    override fun getFlowExchangeRateFromRemote() =
 //        getExchangeRate()
@@ -187,9 +189,8 @@ class ExchangeRateRepositoryImpl(
                     }
                 }
 //                insertExchangeRatesToDatabase(listOfExchangeRate)
-//                KMMPreferences(context = KMMContext()).put(
-//                    PreferenceKeys.TIME_STAMP, exchangeRateRemoteResource.data.timestamp.toString()
-//                )
+                appPreferences.timeStamp =
+                    exchangeRateRemoteResource.data.timestamp.toString()
                 return RemoteResource.Success(listOfExchangeRate)
             }
 

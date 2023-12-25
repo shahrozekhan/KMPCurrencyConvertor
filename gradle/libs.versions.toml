@@ -16,6 +16,8 @@ mvvmCore = "0.16.1"
 #Ktor networking library dependencies...
 ktor_version = "2.3.6"
 
+#kotlinx-date
+kotlinx-date = "0.3.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -62,6 +64,8 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-com
 #koin for android
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
+
+kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

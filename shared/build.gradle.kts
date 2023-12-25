@@ -57,6 +57,8 @@ kotlin {
             //bundle for moko
             api(libs.bundles.moko)
 
+            implementation(libs.kotlinx.date)
+
         }
 
         androidMain.dependencies {

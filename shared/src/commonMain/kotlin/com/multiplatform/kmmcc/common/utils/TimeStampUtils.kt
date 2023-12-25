@@ -1,20 +1,25 @@
 package com.multiplatform.kmmcc.common.utils
 
 import com.shahroze.currencyconvertorandroid.common.enums.TimeStampState
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+
 //import java.text.SimpleDateFormat
 //import java.util.*
 
 object TimeStampUtils {
-    const val timeFormat = "yyyy-MM-dd"
     fun getTimeStampEnum(timeStamp: String): TimeStampState {
-
-//        val format = SimpleDateFormat(timeFormat)
-//        val today = Date()
+        val currentMoment = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
+        val timeSaved =
+            Instant.fromEpochSeconds(timeStamp.toLong())
+                .toLocalDateTime(TimeZone.UTC).date
         return if (timeStamp.isEmpty()) {
             TimeStampState.NOT_EXIST
-        }
-//        } else if (format.format(Date(timeStamp.toLong() * 1000)) == format.format(today))
-//            TimeStampState.TODAY
+
+        } else if (currentMoment == timeSaved)
+            TimeStampState.TODAY
         else
             TimeStampState.NOT_TODAY
 
