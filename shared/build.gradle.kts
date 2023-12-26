@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -58,17 +59,29 @@ kotlin {
             api(libs.bundles.moko)
 
             implementation(libs.kotlinx.date)
+            implementation(libs.kotlin.bignum)
+            // multiplatform sqldelight
+            implementation(libs.kmp.sqldelight)
+            implementation(libs.kotlinx.coroutines)
 
         }
 
         androidMain.dependencies {
             api(libs.androidx.coreKtx)
+            //ktor https Engine for android
             implementation(libs.ktor.android)
+            //dependency injection for android compose
             implementation(libs.bundles.android.koin)
+            //Database
+            implementation(libs.kmp.sqldelight.android)
 
         }
         iosMain.dependencies {
+            //ktor https Engine for IOS
             implementation(libs.ktor.client.darwin)
+            //Database
+            implementation(libs.kmp.sqldelight.ios)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -87,7 +100,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 //    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
 
+}
+
+sqldelight {
+    database("AppDatabase") {
+        packageName = "com.multiplatform.kmmcc.data.sources.local.database"
+    }
 }

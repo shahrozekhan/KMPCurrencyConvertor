@@ -1,10 +1,9 @@
 package com.multiplatform.kmmcc.domain.usecases.favorite
 
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
+import com.multiplatform.kmmcc.domain.model.toExchangeRateDto
 import com.multiplatform.kmmcc.domain.repository.FavoriteExchangeRateRepository
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 class MarkExchangeRateToFavoriteUseCase(
@@ -29,8 +28,8 @@ class MarkExchangeRateToFavoriteUseCase(
                     mutableListOfFavorites.remove(exchangeRate)
                 }
             }
-//            val exchangeRateDto = exchangeRate.toExchangeRateDto()
-//            exchangeRateDto.selected = isSelected
+            val exchangeRateDto = exchangeRate.toExchangeRateDto()
+            exchangeRateDto.selected = isSelected
 //            favoriteExchangeRateRepository.markExchangeRateFavorite(exchangeRateDto = exchangeRateDto)
             mutableListOfFavorites?.toList() ?: listOf()
         }

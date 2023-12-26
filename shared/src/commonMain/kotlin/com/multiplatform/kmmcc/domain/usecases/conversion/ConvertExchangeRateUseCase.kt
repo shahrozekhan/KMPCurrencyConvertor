@@ -1,10 +1,9 @@
 package com.multiplatform.kmmcc.domain.usecases.conversion
 
-import com.multiplatform.kmmcc.common.utils.roundUp
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 /*
@@ -23,16 +22,17 @@ class ConvertExchangeRateUseCase(
         amount: String,
         fromExchangeRate: ExchangeRate,
         toExchangeRateList: List<ExchangeRate>?
-    ): List<Pair<ExchangeRate, Double>> = withContext(dispatcher) {
+    ): List<Pair<ExchangeRate, BigDecimal>> = withContext(dispatcher) {
         buildList {
             toExchangeRateList?.forEach { exchangeRate ->
                 val newRate = (exchangeRate.rate / fromExchangeRate.rate)
 
                 val convertedExchangeRate =
                     ExchangeRate(exchangeRate.currency, exchangeRate.currencyName, newRate)
-
                 add(
-                    convertedExchangeRate to (amount.toDouble() * newRate).roundUp(2)
+                    convertedExchangeRate to amount.toBigDecimal().multiply(
+                        newRate.toBigDecimal()
+                    )
 
                 )
             }

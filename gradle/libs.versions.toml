@@ -16,8 +16,17 @@ mvvmCore = "0.16.1"
 #Ktor networking library dependencies...
 ktor_version = "2.3.6"
 
-#kotlinx-date
+#kotlinx-date.
 kotlinx-date = "0.3.3"
+
+#kotlinx-coroutines.
+coroutines-version = "1.7.3"
+
+#sql delight version for database.
+sqlDelightVersion = "1.5.5"
+
+#third party big numbers.
+kotlinx-bignum = "0.3.8"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -42,7 +51,7 @@ mvvm-livedata-compose = { group = "dev.icerock.moko", name = "mvvm-livedata-comp
 mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "mvvmCore" }
 
 
-#ktor
+#ktor Networking Library:
 #ktor-serialization = {module = "io.ktor:ktor-client-serialization", version.ref = "ktor_version"}
 #ktor-java = {module = "io.ktor:ktor-client-java", version.ref = "ktor_version"}
 #ktor-json = {module = "io.ktor:ktor-client-json", version.ref = "ktor_version"}
@@ -53,19 +62,31 @@ ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor_
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor_version" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor_version" }
 
-#ios and android
+#ios and android:
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
 ktor-android = {group = "io.ktor",name="ktor-client-android", version.ref = "ktor_version"}
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
 
-#koin for kotlin
+#koin for kotlin:
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
 #koin for android
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koin" }
 
+#Kotlinx Corountines:
+kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines-version" }
+
+#kotlinx date library:
 kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
+
+#database library:
+kmp-sqldelight = { group = "com.squareup.sqldelight", name = "runtime", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-android = { group = "com.squareup.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-ios = { group = "com.squareup.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
+
+# bignumbers:
+kotlin-bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "kotlinx-bignum" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -75,6 +96,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose_multiplaform" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelightVersion" }
 
 [bundles]
 ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]

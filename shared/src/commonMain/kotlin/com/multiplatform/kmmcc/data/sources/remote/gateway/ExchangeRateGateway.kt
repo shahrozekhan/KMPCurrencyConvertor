@@ -9,7 +9,7 @@ import io.ktor.client.request.*
 class ExchangeRateGateway(private val httpClient: HttpClient) {
     private object ExchangeRateRoutes {
         const val GET_EXCHANGERATE = "/v1/latest"
-        const val GET_SYMBOLS = "/v1/symbols"
+        const val GET_SYMBOLS = "/v1/symbols.json"
     }
 
     suspend fun getExchangeRate(): ExchangeRateResponseDto {

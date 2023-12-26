@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.multiplatform.kmmcc.common.utils.containsDigitsAndDecimalOnly
 import com.multiplatform.kmmcc.common.utils.empty
 import com.multiplatform.kmmcc.common.views.Body1Normal
@@ -57,8 +58,6 @@ import com.multiplatform.kmmcc.common.views.HeadingMedium
 import com.multiplatform.kmmcc.common.views.VerticalDivider
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.presentation.CommonUIEvent
-import dev.icerock.moko.mvvm.compose.getViewModel
-import dev.icerock.moko.mvvm.compose.viewModelFactory
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
@@ -235,7 +234,7 @@ fun ExchangeRateScreen() {
                 if (currencyRateState.listOfConvertedAgainstBase.isNotEmpty()) {
                     items(
                         items = currencyRateState.listOfConvertedAgainstBase
-                    ) { pair: Pair<ExchangeRate, Double> ->
+                    ) { pair: Pair<ExchangeRate, BigDecimal> ->
 
                         CurrenciesListItem(pair)
                     }
@@ -262,14 +261,14 @@ fun ExchangeRateScreen() {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CurrenciesListItem(pair: Pair<ExchangeRate, Double>) {
+fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>) {
     val exchangeRate = pair.first
     val convertedAmount = pair.second
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = Color.Black,
+                color = Color.LightGray,
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(8.dp),
@@ -283,7 +282,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, Double>) {
             if (exchangeRate.currencyName.isNotEmpty())
                 Body2Normal(
                     text = " (${exchangeRate.currencyName})",
-                    color = Color.White
+                    color = Color.Green
                 )
         }
         Row(
@@ -299,7 +298,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, Double>) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Body1Normal(text = "Amount :")
-            Body2Medium(text = convertedAmount.toString())
+            Body2Medium(text = convertedAmount.toPlainString())
         }
     }
     VerticalDivider(dp = 8.dp)
@@ -329,7 +328,7 @@ fun FlowRow(
             ) {
                 val currencyName =
                     if (item.currencyName.isNotEmpty()) "(${item.currencyName})" else String.empty
-                Text(
+                Body1Normal(
                     modifier = Modifier
                         .weight(9f)
                         .padding(8.dp),

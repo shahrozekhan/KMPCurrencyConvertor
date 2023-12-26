@@ -13,4 +13,5 @@ interface ExchangeRateRepository {
     suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateDto>
 
     suspend fun getExchangeRatesFromAssets(): Resource<List<ExchangeRateDto>>
+    fun SaveFromExchangeRate(exchangeRateStr: String)
 }

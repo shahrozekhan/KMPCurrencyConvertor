@@ -1,5 +1,8 @@
 package com.multiplatform.kmmcc.common.utils
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.RoundingMode
+
 val String.Companion.empty: String get() = ""
 
 fun String.containsDigitsAndDecimalOnly(): Boolean {
@@ -7,5 +10,7 @@ fun String.containsDigitsAndDecimalOnly(): Boolean {
     return check.matches(this)
 }
 
-fun Double.roundUp(place: Int): Double = this.roundUp(place)
+fun BigDecimal.roundUp(place: Int): BigDecimal =
+    this.roundToDigitPosition(place.toLong(), RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)
+
 //fun Double.roundUpFiveDecimal(): Double = String.format("%.5f", this).toDouble()

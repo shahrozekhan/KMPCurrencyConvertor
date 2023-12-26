@@ -9,6 +9,7 @@ import com.multiplatform.kmmcc.domain.model.appDefaultExchangeRate
 import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.ForceSyncExchangeRatesUseCase
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.GetExchangeRateUseCase
+import com.multiplatform.kmmcc.domain.usecases.exchangerate.SaveFromExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
 import com.multiplatform.kmmcc.presentation.CommonUIEvent
@@ -24,11 +25,12 @@ class ExchangeRateViewModel(
     private val getFavoriteExchangeRateUseCase: GetFavoriteExchangeRateUseCase,
     private val convertExchangeRateUseCase: ConvertExchangeRateUseCase,
     private val getExchangeRateUseCase: GetExchangeRateUseCase,
-    private val forceSyncExchangeRatesUseCase: ForceSyncExchangeRatesUseCase
+    private val forceSyncExchangeRatesUseCase: ForceSyncExchangeRatesUseCase,
+    private val saveSelectedExchangeRateUseCase: SaveFromExchangeRateUseCase
 ) : ViewModel() {
 
     init {
-        loadFavoriteExchangeRate()
+//        loadFavoriteExchangeRate()
         loadExchangeRate()
     }
 
@@ -37,11 +39,6 @@ class ExchangeRateViewModel(
 
     private val _eventFlow = MutableSharedFlow<CommonUIEvent>()
     val commonEventFlow = _eventFlow.asSharedFlow()
-
-    private var baseCurrency: String = "AED"
-    private fun setSelectedCurrency(selectedCurrency: String) {
-        baseCurrency = selectedCurrency
-    }
 
     fun onEvent(event: ExchangeRateScreenEvent) {
         when (event) {
@@ -122,8 +119,7 @@ class ExchangeRateViewModel(
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
                         isConverting = true
                     )
-                    setSelectedCurrency(exchangeRateViewState.value.fromCurrency.currency)
-
+                    saveSelectedExchangeRateUseCase(exchangeRateViewState.value.fromCurrency.currency)
                     exchangeRateViewState.value.apply {
                         val listOfConvertedExchangeRate = convertExchangeRateUseCase(
                             amount = amount,

@@ -2,13 +2,11 @@ package com.multiplatform.kmmcc.domain.usecases.exchangerate
 
 import com.multiplatform.kmmcc.common.base.RemoteResource
 import com.multiplatform.kmmcc.common.base.Resource
-import com.multiplatform.kmmcc.common.utils.TimeStampUtils
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
 import com.multiplatform.kmmcc.data.sources.local.AppPreferences
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.domain.model.toExchangeRate
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
-import com.shahroze.currencyconvertorandroid.common.enums.TimeStampState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
@@ -20,23 +18,24 @@ class GetExchangeRateUseCase (
 ) {
     operator fun invoke(): Flow<Resource<List<ExchangeRate>>> = flow {
         emit(Resource.Loading())
-        when (TimeStampUtils.getTimeStampEnum(appPreferences.timeStamp)) {
-            TimeStampState.TODAY -> {
-                loadFromDatabase()
-            }
-
-            TimeStampState.NOT_TODAY -> {
-                loadFromRemote(onError = {
-                    loadFromDatabase()
-                })
-            }
-
-            TimeStampState.NOT_EXIST -> {
-                loadFromRemote(onError = {
-                    loadFromAsset()
-                })
-            }
-        }
+        loadFromAsset()
+//        when (TimeStampUtils.getTimeStampEnum(appPreferences.timeStamp)) {
+//            TimeStampState.TODAY -> {
+//                loadFromDatabase()
+//            }
+//
+//            TimeStampState.NOT_TODAY -> {
+//                loadFromRemote(onError = {
+//                    loadFromDatabase()
+//                })
+//            }
+//
+//            TimeStampState.NOT_EXIST -> {
+//                loadFromRemote(onError = {
+//                    loadFromAsset()
+//                })
+//            }
+//        }
     }
 
     private suspend fun FlowCollector<Resource<List<ExchangeRate>>>.loadFromAsset() {

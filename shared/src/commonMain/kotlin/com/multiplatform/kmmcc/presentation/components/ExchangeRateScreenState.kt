@@ -1,5 +1,6 @@
 package com.multiplatform.kmmcc.presentation.components
 
+import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.domain.model.appDefaultExchangeRate
 
@@ -10,7 +11,7 @@ data class ExchangeRateScreenState(
     val isForceSyncingExchangeRate: Boolean = false,
     val listOfCurrency: List<ExchangeRate>? = listOf(),
     val favoriteCurrencies: List<ExchangeRate>? = listOf(),
-    val listOfConvertedAgainstBase: List<Pair<ExchangeRate, Double>> = listOf(),
+    val listOfConvertedAgainstBase: List<Pair<ExchangeRate, BigDecimal>> = listOf(),
     val fromCurrency: ExchangeRate = ExchangeRate.appDefaultExchangeRate,
     val errorMessage: String = "",
     val amount: String = "100"
