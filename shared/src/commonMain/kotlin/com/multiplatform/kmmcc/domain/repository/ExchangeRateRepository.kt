@@ -3,6 +3,7 @@ package com.multiplatform.kmmcc.domain.repository
 import com.multiplatform.kmmcc.common.base.RemoteResource
 import com.multiplatform.kmmcc.common.base.Resource
 import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
+import database.ExchangeRateEntity
 
 interface ExchangeRateRepository {
 
@@ -10,7 +11,7 @@ interface ExchangeRateRepository {
 
     suspend fun insertExchangeRatesToDatabase(listOfExchangeRate: List<ExchangeRateDto>)
 
-    suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateDto>
+    suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateEntity>
 
     suspend fun getExchangeRatesFromAssets(): Resource<List<ExchangeRateDto>>
     fun SaveFromExchangeRate(exchangeRateStr: String)

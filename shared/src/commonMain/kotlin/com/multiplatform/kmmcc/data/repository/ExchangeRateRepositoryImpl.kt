@@ -9,15 +9,21 @@ import com.multiplatform.kmmcc.data.sources.local.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
 import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
 import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
+import com.multiplatform.kmmcc.database.ExchangeRateDB
+import com.multiplatform.kmmcc.domain.model.toExchangeRate
+import com.multiplatform.kmmcc.domain.model.toExchangeRateEntity
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
+import database.ExchangeRateEntity
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 //Error Handling in Repository.
 class ExchangeRateRepositoryImpl(
     private val exchangeRateGateWay: ExchangeRateGateway,
     private val serviceHelper: KtorServiceHelper,
-//    private val exchangeRateDao: ExchangeRateDao,
-//    private val defaultDispatcher: CoroutineDispatcher,
-//    private val ioDispatcher: CoroutineDispatcher,
+    private val exchangeRateDb: ExchangeRateDB,
+    private val defaultDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
     private val fileDataSource: LocalJsonFileReader,
     private val appPreferences: AppPreferences
 ) : ExchangeRateRepository {
@@ -37,7 +43,7 @@ class ExchangeRateRepositoryImpl(
                     exchangeRate.data?.rates,
                     symbols.data?.symbols
                 )
-//            insertExchangeRatesToDatabase(listOfExchangeRate)
+            insertExchangeRatesToDatabase(listOfExchangeRate)
             appPreferences.timeStamp = exchangeRate.data?.timestamp.toString()
             Resource.Success(listOfExchangeRate)
         } else {
@@ -70,7 +76,7 @@ class ExchangeRateRepositoryImpl(
                         )
                     }
                 }
-//                insertExchangeRatesToDatabase(listOfExchangeRate)
+                insertExchangeRatesToDatabase(listOfExchangeRate)
                 appPreferences.timeStamp =
                     exchangeRateRemoteResource.data.timestamp.toString()
                 return RemoteResource.Success(listOfExchangeRate)
@@ -82,11 +88,20 @@ class ExchangeRateRepositoryImpl(
         }
     }
 
-    override suspend fun insertExchangeRatesToDatabase(listOfExchangeRate: List<ExchangeRateDto>) {
-    }
+    override suspend fun insertExchangeRatesToDatabase(listOfExchangeRate: List<ExchangeRateDto>) =
+        withContext(defaultDispatcher) {
+            exchangeRateDb.exchangeratedbQueries.getFavoriteExchangeRates().executeAsList()
+                .forEach { favorite ->
+                    listOfExchangeRate.find { favorite.currency == it.currency }?.selected =
+                        favorite.selected
+                }
+            listOfExchangeRate.forEach {
+                exchangeRateDb.exchangeratedbQueries.updateAndInsertExchangeRate(it.toExchangeRateEntity())
+            }
+        }
 
-    override suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateDto> {
-        return listOf()
+    override suspend fun getExchangeRatesFromDatabase() :List<ExchangeRateEntity> = withContext(defaultDispatcher) {
+        exchangeRateDb.exchangeratedbQueries.getAllExchangeRates().executeAsList()
     }
 
     override fun SaveFromExchangeRate(exchangeRateStr: String) {

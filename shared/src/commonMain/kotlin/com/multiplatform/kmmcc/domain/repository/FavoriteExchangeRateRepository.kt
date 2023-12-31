@@ -1,13 +1,14 @@
 package com.multiplatform.kmmcc.domain.repository
 
-import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
+import com.multiplatform.kmmcc.domain.model.ExchangeRate
+import database.ExchangeRateEntity
 
 
 interface FavoriteExchangeRateRepository {
 
-    suspend fun getFavoriteExchangeRates(): List<ExchangeRateDto>
+    suspend fun getFavoriteExchangeRates(): List<ExchangeRate>
 
-    suspend fun markExchangeRateFavorite(exchangeRateDto: ExchangeRateDto)
+    suspend fun markExchangeRateFavorite(exchangeRateEntity: ExchangeRateEntity)
 
 
 }

@@ -1,0 +1,28 @@
+import kotlin.Boolean;
+
+CREATE TABLE ExchangeRateEntity(
+    currency TEXT NOT NULL PRIMARY KEY,
+    currencyName TEXT,
+    rate REAL NOT NULL,
+    selected INTEGER AS Boolean NOT NULL
+);
+
+getAllExchangeRates:
+SELECT *
+FROM ExchangeRateEntity
+ORDER BY currency ASC;
+
+getFavoriteExchangeRates:
+SELECT *
+FROM ExchangeRateEntity
+WHERE selected = 1;
+
+updateAndInsertExchangeRate:
+INSERT OR REPLACE
+INTO ExchangeRateEntity(
+    currency,
+    currencyName,
+    rate,
+    selected
+) VALUES ?;
+

@@ -4,13 +4,14 @@ import com.multiplatform.kmmcc.common.Constants.ExchangeRateConstants.DEFAULT_CU
 import com.multiplatform.kmmcc.common.Constants.ExchangeRateConstants.DEFAULT_CURRENCY_NAME
 import com.multiplatform.kmmcc.common.Constants.ExchangeRateConstants.DEFAULT_CURRENCY_RATE
 import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
+import database.ExchangeRateEntity
 
 data class ExchangeRate(val currency: String, val currencyName: String, val rate: Double) {
     companion object
 }
 
-fun ExchangeRate.toExchangeRateDto(): ExchangeRateDto {
-    return ExchangeRateDto(
+fun ExchangeRate.toExchangeRateEntity(): ExchangeRateEntity {
+    return ExchangeRateEntity(
         currency,
         currencyName,
         rate,
@@ -18,10 +19,27 @@ fun ExchangeRate.toExchangeRateDto(): ExchangeRateDto {
     )
 }
 
+fun ExchangeRateDto.toExchangeRateEntity(): ExchangeRateEntity {
+    return ExchangeRateEntity(
+        currency,
+        currencyName,
+        rate,
+        selected
+    )
+}
+
+fun ExchangeRateEntity.toExchangeRate(): ExchangeRate {
+    return ExchangeRate(
+        currency,
+        currencyName ?: "",
+        rate
+    )
+}
+
 fun ExchangeRateDto.toExchangeRate(): ExchangeRate {
     return ExchangeRate(
         currency,
-        currencyName,
+        currencyName ?: "",
         rate
     )
 }

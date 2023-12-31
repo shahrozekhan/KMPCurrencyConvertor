@@ -23,7 +23,7 @@ kotlinx-date = "0.3.3"
 coroutines-version = "1.7.3"
 
 #sql delight version for database.
-sqlDelightVersion = "1.5.5"
+sqlDelightVersion = "2.0.1"
 
 #third party big numbers.
 kotlinx-bignum = "0.3.8"
@@ -81,9 +81,9 @@ kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
 
 #database library:
-kmp-sqldelight = { group = "com.squareup.sqldelight", name = "runtime", version.ref = "sqlDelightVersion" }
-kmp-sqldelight-android = { group = "com.squareup.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
-kmp-sqldelight-ios = { group = "com.squareup.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
+kmp-sqldelight = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-ios = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
 
 # bignumbers:
 kotlin-bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "kotlinx-bignum" }
@@ -96,7 +96,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose_multiplaform" }
 kotlinxSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-sqlDelight = { id = "com.squareup.sqldelight", version.ref = "sqlDelightVersion" }
+sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
 
 [bundles]
 ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]

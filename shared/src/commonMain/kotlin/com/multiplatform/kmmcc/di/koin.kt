@@ -1,14 +1,16 @@
 package com.multiplatform.kmmcc.di
 
+import app.cash.sqldelight.db.SqlDriver
 import com.multiplatform.kmmcc.common.KMMContext
 import com.multiplatform.kmmcc.common.KMMPreferences
-import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
 import com.multiplatform.kmmcc.data.repository.ExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.repository.FavoriteExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
 import com.multiplatform.kmmcc.data.sources.local.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
 import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
+import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
+import com.multiplatform.kmmcc.database.ExchangeRateDB
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import com.multiplatform.kmmcc.domain.repository.FavoriteExchangeRateRepository
 import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertExchangeRateUseCase
@@ -25,14 +27,18 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
 
-fun injectKoin(application: KMMContext) = init(application)
+fun injectKoin(application: KMMContext, sqlDriver: SqlDriver) =
+    init(application, sqlDriver)
 
-internal fun init(application: KMMContext) = startKoin {
-    modules(ApplicationKoinComponentModules(application = application))
+internal fun init(application: KMMContext, sqlDriver: SqlDriver) = startKoin {
+    modules(applicationKoinComponentModules(application = application, sqlDriver = sqlDriver))
 }
 
 
-internal fun ApplicationKoinComponentModules(application: KMMContext) =
+internal fun applicationKoinComponentModules(
+    application: KMMContext,
+    sqlDriver: SqlDriver
+) =
     platformKoinModule() +
             commonMainModules(application) +
             provideDispatchers() +
@@ -40,7 +46,8 @@ internal fun ApplicationKoinComponentModules(application: KMMContext) =
             provideUseCases() +
             provideViewModel() +
             provideGatway() +
-            httpClientModule
+            httpClientModule +
+            provideDatabase(sqlDriver)
 
 
 internal fun provideDispatchers() = module {
@@ -50,8 +57,18 @@ internal fun provideDispatchers() = module {
 }
 
 internal fun provideRepositories() = module {
-    factory<ExchangeRateRepository> { ExchangeRateRepositoryImpl(get(), get(), get(), get()) }
-    factory<FavoriteExchangeRateRepository> { FavoriteExchangeRateRepositoryImpl(get()) }
+    factory<ExchangeRateRepository> {
+        ExchangeRateRepositoryImpl(
+            get(),
+            get(),
+            get(),
+            Dispatchers.Default,
+            Dispatchers.IO,
+            get(),
+            get()
+        )
+    }
+    factory<FavoriteExchangeRateRepository> { FavoriteExchangeRateRepositoryImpl(get(), get()) }
 }
 
 internal fun provideUseCases() = module {
@@ -71,6 +88,10 @@ fun provideViewModel() = module {
 
 fun provideGatway() = module {
     single { ExchangeRateGateway(get()) }
+}
+
+fun provideDatabase(sqlDriver: SqlDriver) = module {
+    single { ExchangeRateDB(sqlDriver) }
 }
 
 fun commonMainModules(context: KMMContext) = module {

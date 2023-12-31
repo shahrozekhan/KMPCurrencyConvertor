@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -43,6 +44,7 @@ kotlin {
     }
 
     sourceSets {
+
         commonMain.dependencies {
             //put your multiplatform dependencies here
             api(compose.runtime)
@@ -83,6 +85,7 @@ kotlin {
             implementation(libs.kmp.sqldelight.ios)
 
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -107,7 +110,10 @@ android {
 }
 
 sqldelight {
-    database("AppDatabase") {
-        packageName = "com.multiplatform.kmmcc.data.sources.local.database"
+    databases{
+        create("ExchangeRateDB"){
+            packageName="com.multiplatform.kmmcc.database"
+
+        }
     }
 }
