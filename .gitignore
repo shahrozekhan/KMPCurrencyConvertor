@@ -182,3 +182,5 @@ fastlane/test_output
 iOSInjectionProject/
 /project.pbxproj
 /UserInterfaceState.xcuserstate
+/.idea/intellij-javadocs-4.0.1.xml
+iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/shahroze.xcuserdatad/UserInterfaceState.xcuserstate
