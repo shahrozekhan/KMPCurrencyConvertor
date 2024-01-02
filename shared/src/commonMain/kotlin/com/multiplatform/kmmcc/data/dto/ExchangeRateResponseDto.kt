@@ -8,6 +8,6 @@ data class ExchangeRateResponseDto(
     val date: String? = null,
     val rates: HashMap<String, Double>? = null,
     val symbols: HashMap<String, String>? = null,
-    val success: Boolean,
+    val success: Boolean? = false,
     val timestamp: Int? = null
 )

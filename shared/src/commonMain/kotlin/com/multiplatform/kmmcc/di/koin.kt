@@ -49,7 +49,6 @@ internal fun applicationKoinComponentModules(
             httpClientModule +
             provideDatabase(sqlDriver)
 
-
 internal fun provideDispatchers() = module {
     single { Dispatchers.IO }
     single { Dispatchers.Main }

@@ -12,17 +12,16 @@ import kotlinx.datetime.toLocalDateTime
 object TimeStampUtils {
     fun getTimeStampEnum(timeStamp: String): TimeStampState {
         val currentMoment = Clock.System.now().toLocalDateTime(TimeZone.UTC).date
-        val timeSaved =
-            Instant.fromEpochSeconds(timeStamp.toLong(),0L)
-                .toLocalDateTime(TimeZone.UTC).date
         return if (timeStamp.isEmpty()) {
             TimeStampState.NOT_EXIST
-
-        } else if (currentMoment == timeSaved)
+        } else if (currentMoment == localDate(timeStamp))
             TimeStampState.TODAY
         else
             TimeStampState.NOT_TODAY
 
     }
+
+    private fun localDate(timeStamp: String) = Instant.fromEpochSeconds(timeStamp.toLong(), 0L)
+        .toLocalDateTime(TimeZone.UTC).date
 
 }
