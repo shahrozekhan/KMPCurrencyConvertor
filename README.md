@@ -8,6 +8,7 @@ It has been built using the following Kotlin Multi platform libraries:
 ● Sql Delight.
 ● Ktor.
 ● Moko (Mvvm and flow)
+● KotlinX coroutines.
 
 The application has been built using clean architecture with following layer:
 
