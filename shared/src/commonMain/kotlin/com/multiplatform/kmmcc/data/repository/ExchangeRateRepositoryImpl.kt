@@ -7,10 +7,8 @@ import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
 import com.multiplatform.kmmcc.data.dto.ExchangeRateResponseDto
 import com.multiplatform.kmmcc.data.sources.local.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
-import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
-import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
+import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
 import com.multiplatform.kmmcc.database.ExchangeRateDB
-import com.multiplatform.kmmcc.domain.model.toExchangeRate
 import com.multiplatform.kmmcc.domain.model.toExchangeRateEntity
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import database.ExchangeRateEntity
@@ -19,11 +17,9 @@ import kotlinx.coroutines.withContext
 
 //Error Handling in Repository.
 class ExchangeRateRepositoryImpl(
-    private val exchangeRateGateWay: ExchangeRateGateway,
-    private val serviceHelper: KtorServiceHelper,
+    private val exchangeRateDataSource: ExchangeRateDataSource,
     private val exchangeRateDb: ExchangeRateDB,
     private val defaultDispatcher: CoroutineDispatcher,
-    private val ioDispatcher: CoroutineDispatcher,
     private val fileDataSource: LocalJsonFileReader,
     private val appPreferences: AppPreferences
 ) : ExchangeRateRepository {
@@ -57,9 +53,8 @@ class ExchangeRateRepositoryImpl(
     }
 
     override suspend fun getExchangeRateFromRemote(): RemoteResource<List<ExchangeRateDto>> {
-        val exchangeRateRemoteResource =
-            serviceHelper.call { exchangeRateGateWay.getExchangeRate() }
-        val symbolsRemoteResource = serviceHelper.call { exchangeRateGateWay.getSymbols() }
+        val exchangeRateRemoteResource = exchangeRateDataSource.getExchangeRate()
+        val symbolsRemoteResource = exchangeRateDataSource.getSymbols()
         when (exchangeRateRemoteResource) {
             is RemoteResource.Success -> {
                 val listOfExchangeRate: List<ExchangeRateDto> = when (symbolsRemoteResource) {
@@ -100,9 +95,10 @@ class ExchangeRateRepositoryImpl(
             }
         }
 
-    override suspend fun getExchangeRatesFromDatabase() :List<ExchangeRateEntity> = withContext(defaultDispatcher) {
-        exchangeRateDb.exchangeratedbQueries.getAllExchangeRates().executeAsList()
-    }
+    override suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateEntity> =
+        withContext(defaultDispatcher) {
+            exchangeRateDb.exchangeratedbQueries.getAllExchangeRates().executeAsList()
+        }
 
     override fun SaveFromExchangeRate(exchangeRateStr: String) {
         appPreferences.baseCurrency = exchangeRateStr

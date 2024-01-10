@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ErrorResponse(
-    val error: Error,
-    val success: Boolean
+    val error: Error? = null,
+    val success: Boolean? = false,
+    val httpStatus: Int = 0
 )

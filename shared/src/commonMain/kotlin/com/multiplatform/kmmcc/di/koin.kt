@@ -8,8 +8,7 @@ import com.multiplatform.kmmcc.data.repository.FavoriteExchangeRateRepositoryImp
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
 import com.multiplatform.kmmcc.data.sources.local.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
-import com.multiplatform.kmmcc.data.sources.remote.KtorServiceHelper
-import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateGateway
+import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
 import com.multiplatform.kmmcc.database.ExchangeRateDB
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import com.multiplatform.kmmcc.domain.repository.FavoriteExchangeRateRepository
@@ -60,9 +59,7 @@ internal fun provideRepositories() = module {
         ExchangeRateRepositoryImpl(
             get(),
             get(),
-            get(),
             Dispatchers.Default,
-            Dispatchers.IO,
             get(),
             get()
         )
@@ -86,7 +83,7 @@ fun provideViewModel() = module {
 }
 
 fun provideGatway() = module {
-    single { ExchangeRateGateway(get()) }
+    single { ExchangeRateDataSource(get()) }
 }
 
 fun provideDatabase(sqlDriver: SqlDriver) = module {
@@ -95,7 +92,6 @@ fun provideDatabase(sqlDriver: SqlDriver) = module {
 
 fun commonMainModules(context: KMMContext) = module {
     single { RemoteErrorParser() }
-    single { KtorServiceHelper(get()) }
     single { KMMPreferences(context) }
     single { AppPreferences(get()) }
     single { LocalJsonFileReader() }

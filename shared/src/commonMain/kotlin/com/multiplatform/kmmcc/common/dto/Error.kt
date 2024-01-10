@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Error(
-    val code: String,
-    val info: String,
-    val message: String
+    val code: String? = "",
+    val info: String? = "",
+    val message: String? = ""
 )
