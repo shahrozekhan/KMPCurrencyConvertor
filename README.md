@@ -16,4 +16,5 @@ The application has been built using clean architecture with following layer:
 ● Domain.
 ● Presentation.
 
+![Image Alt text](/img.jpeg "Android and IOS"))
 
