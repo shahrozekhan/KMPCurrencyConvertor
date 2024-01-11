@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -110,10 +109,10 @@ android {
 }
 
 sqldelight {
-    databases{
-        create("ExchangeRateDB"){
-            packageName="com.multiplatform.kmmcc.database"
-
+    databases {
+        create("ExchangeRateDB") {
+            packageName = "com.multiplatform.kmmcc.database"
+            srcDirs.setFrom("src/commonMain/sqldelight")
         }
     }
 }

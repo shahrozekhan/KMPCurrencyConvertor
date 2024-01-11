@@ -44,5 +44,23 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+        
+        <!-- Optional: Specify exceptions for specific domains -->
+        
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>api.exchangeratesapi.io</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+        </dict>
+        
+    </dict>
+
 </dict>
 </plist>

@@ -5,6 +5,6 @@ import app.cash.sqldelight.driver.native.NativeSqliteDriver
 import com.multiplatform.kmmcc.database.ExchangeRateDB
 actual class ExchangeRateDriverFactory {
     actual fun createDriver(): SqlDriver {
-        return NativeSqliteDriver(ExchangeRateDB.Schema, "exchangeratedb.db")
+        return NativeSqliteDriver(ExchangeRateDB.Schema, "exchangeratedb.sq")
     }
 }

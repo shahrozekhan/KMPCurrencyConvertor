@@ -124,7 +124,7 @@ fun ExchangeRateScreen() {
                                     val currencyName =
                                         if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
                                     CurrencyExposedDropdownMenuBox(
-                                        modifier = Modifier.weight(0.85f),
+                                        modifier = Modifier/*.weight(0.85f)*/,
                                         defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
                                         currencyRateState = currencyRateState
                                     ) { selectedCurrency ->
@@ -134,15 +134,15 @@ fun ExchangeRateScreen() {
                                             )
                                         )
                                     }
-                                    ComposeIcon(
-                                        icon = "ic_sync.xml",
-                                        modifier = Modifier
-                                            .weight(.15f)
-                                            .size(30.dp)
-                                            .clickable(enabled = !currencyRateState.isForceSyncingExchangeRate) {
-                                                viewModel.onEvent(ExchangeRateScreenEvent.ForceSyncExchangeRate)
-                                            }
-                                    )
+//                                    ComposeIcon(
+//                                        icon = "ic_sync.xml",
+//                                        modifier = Modifier
+//                                            .weight(.15f)
+//                                            .size(30.dp)
+//                                            .clickable(enabled = !currencyRateState.isForceSyncingExchangeRate) {
+//                                                viewModel.onEvent(ExchangeRateScreenEvent.ForceSyncExchangeRate)
+//                                            }
+//                                    )
                                 }
                             }
 
