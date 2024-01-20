@@ -20,3 +20,7 @@ Android && IOS
 
 ![Image Alt text](/img.jpeg "Android and IOS")
 
+Next Target:
+
+● Improve design.
+● Create Destop Version
