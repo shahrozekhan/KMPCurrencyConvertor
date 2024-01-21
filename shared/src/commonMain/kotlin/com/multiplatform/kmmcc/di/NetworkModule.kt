@@ -28,14 +28,6 @@ val httpClientModule = module {
 
             }
 
-            /*HttpResponseValidator {
-                validateResponse { response ->
-                    if (!response.status.isSuccess()) {
-                        throw ResponseException(response, response.request.url.toString())
-                    }
-                }
-            }*/
-
             defaultRequest {
                 url {
                     protocol = URLProtocol.HTTP

@@ -8,14 +8,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import com.multiplatform.kmmcc.common.theme.Black
 
 @Composable
 fun HeadingMedium(
     text: String,
     textAlign: TextAlign = TextAlign.Start,
     modifier: Modifier = Modifier,
-    color: Color = Black,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     isSingleLine: Boolean = false
 ) {
     return Text(
@@ -33,7 +32,7 @@ fun HeadingMedium(
 fun Body1Medium(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Black,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     isSingleLine: Boolean = false
 ) {
     return Text(
@@ -52,7 +51,7 @@ fun Body1Normal(
     text: String,
     textAlign: TextAlign = TextAlign.Start,
     modifier: Modifier = Modifier,
-    color: Color = Black,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     isSingleLine: Boolean = false
 ) {
     return Text(
@@ -71,7 +70,7 @@ fun Body1Normal(
 fun Body2Medium(
     text: String,
     modifier: Modifier = Modifier,
-    color: Color = Black,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     isSingleLine: Boolean = false
 ) {
     return Text(
@@ -90,7 +89,7 @@ fun Body2Normal(
     text: String,
     textAlign: TextAlign = TextAlign.Start,
     modifier: Modifier = Modifier,
-    color: Color = Black,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     isSingleLine: Boolean = false
 ) {
     return Text(

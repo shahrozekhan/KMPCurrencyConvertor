@@ -128,7 +128,8 @@ class ExchangeRateViewModel(
                         )
                         _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
                             listOfConvertedAgainstBase = listOfConvertedExchangeRate,
-                            isConverting = false
+                            isConverting = false,
+                            convertedCurrency = exchangeRateViewState.value.fromCurrency
                         )
 
                     }

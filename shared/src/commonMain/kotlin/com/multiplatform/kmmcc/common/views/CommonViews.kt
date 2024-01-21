@@ -18,14 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
-import com.multiplatform.kmmcc.common.theme.GreenPrimaryDark
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ComposeButton(
     modifier: Modifier = Modifier
-        .background(GreenPrimaryDark),
+        .background(MaterialTheme.colorScheme.primaryContainer),
     text: String,
     colors: ButtonColors = ButtonDefaults.buttonColors(
         contentColor = Color.White

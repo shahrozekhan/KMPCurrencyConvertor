@@ -14,5 +14,6 @@ data class ExchangeRateScreenState(
     val listOfConvertedAgainstBase: List<Pair<ExchangeRate, BigDecimal>> = listOf(),
     val fromCurrency: ExchangeRate = ExchangeRate.appDefaultExchangeRate,
     val errorMessage: String = "",
-    val amount: String = "100"
+    val amount: String = "",
+    val convertedCurrency: ExchangeRate = ExchangeRate.appDefaultExchangeRate
 )

@@ -26,12 +26,11 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,11 +41,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
+import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.multiplatform.kmmcc.common.utils.containsDigitsAndDecimalOnly
 import com.multiplatform.kmmcc.common.utils.empty
 import com.multiplatform.kmmcc.common.views.Body1Normal
@@ -65,7 +65,7 @@ import org.koin.compose.koinInject
 @ExperimentalMaterial3Api
 @Composable
 fun ExchangeRateScreen() {
-    val viewModel: ExchangeRateViewModel = koinInject()
+    val viewModel: ExchangeRateViewModel = koinInject<ExchangeRateViewModel>()
     val currencyRateState = viewModel.exchangeRateViewState.value
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -91,24 +91,27 @@ fun ExchangeRateScreen() {
     ) {
         Box(
             modifier = Modifier
-
                 .fillMaxSize()
-                .padding(
-                    horizontal = 16.dp
-                )
+
         ) {
             LazyColumn(
                 modifier = Modifier
+                    .padding(
+                        horizontal = 16.dp
+                    )
                     .padding(bottom = 8.dp)
                     .fillMaxSize(),
                 state = rememberLazyListState()
             ) {
-                item {
+                stickyHeader {
                     HeadingMedium(
                         modifier = Modifier
+                            .background(MaterialTheme.colorScheme.background)
+                            .fillMaxWidth()
                             .padding(top = 16.dp),
                         text = "Currency Convertor",
-                        color = Color.Blue
+                        color = MaterialTheme.colorScheme.onBackground,
+                        textAlign = TextAlign.Center
                     )
                 }
                 item {
@@ -118,12 +121,12 @@ fun ExchangeRateScreen() {
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             Column {
-                                Body1Normal(text = "From")
                                 VerticalDivider(dp = 8.dp)
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     val currencyName =
                                         if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
                                     CurrencyExposedDropdownMenuBox(
+                                        placeHolderText = "From",
                                         modifier = Modifier/*.weight(0.85f)*/,
                                         defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
                                         currencyRateState = currencyRateState
@@ -147,7 +150,6 @@ fun ExchangeRateScreen() {
                             }
 
                             Column {
-                                Body1Normal("To :")
                                 VerticalDivider(dp = 8.dp)
                                 val textState by remember {
                                     mutableStateOf(
@@ -159,6 +161,7 @@ fun ExchangeRateScreen() {
                                     )
                                 }
                                 CurrencyExposedDropdownMenuBox(
+                                    placeHolderText = "To",
                                     defaultText = textState,
                                     currencyRateState = currencyRateState
                                 ) { selectedCurrency ->
@@ -184,11 +187,10 @@ fun ExchangeRateScreen() {
                 }
                 stickyHeader {
                     Column(
-                        modifier = Modifier.background(Color.White),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         VerticalDivider(dp = 8.dp)
-                        TextField(
+                        OutlinedTextField(
                             value = currencyRateState.amount,
                             onValueChange = {
                                 if (it.containsDigitsAndDecimalOnly() || it.isEmpty()) {
@@ -196,21 +198,17 @@ fun ExchangeRateScreen() {
                                 }
                             },
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .background(Color.LightGray),
+                                .fillMaxWidth(),
+                            placeholder = {
+                                Body1Normal("100.00")
+                            },
                             label = {
-                                Text(
-                                    "Amount"
+                                Body2Medium(
+                                    "Amount (${currencyRateState.fromCurrency.currency})"
                                 )
                             },
-                            textStyle = TextStyle(color = Color.Black),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            colors = TextFieldDefaults.colors(
-                                disabledTextColor = Color.Transparent,
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                disabledIndicatorColor = Color.Transparent
-                            )
+                            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                         )
                         VerticalDivider(dp = 12.dp)
 
@@ -236,7 +234,7 @@ fun ExchangeRateScreen() {
                         items = currencyRateState.listOfConvertedAgainstBase
                     ) { pair: Pair<ExchangeRate, BigDecimal> ->
 
-                        CurrenciesListItem(pair)
+                        CurrenciesListItem(pair, viewModel)
                     }
                 }
 
@@ -261,14 +259,15 @@ fun ExchangeRateScreen() {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>) {
+fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: ExchangeRateViewModel) {
     val exchangeRate = pair.first
     val convertedAmount = pair.second
+    val convertedCurrency by viewModel.exchangeRateViewState
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = Color.LightGray,
+                color = MaterialTheme.colorScheme.primaryContainer,
                 shape = RoundedCornerShape(8.dp)
             )
             .padding(8.dp),
@@ -276,29 +275,35 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>) {
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.Center
         ) {
             Body2Medium(text = exchangeRate.currency)
             if (exchangeRate.currencyName.isNotEmpty())
                 Body2Normal(
                     text = " (${exchangeRate.currencyName})",
-                    color = Color.Green
+                    color = MaterialTheme.colorScheme.secondary
                 )
         }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Body1Normal(text = "Rate :")
-            Body2Normal(text = exchangeRate.rate.toString())
+            Body1Normal(text = "1 ${convertedCurrency.convertedCurrency.currency}")
+            Body2Normal(
+                text = exchangeRate.rate.toBigDecimal()
+                    .toPlainString() + " ${exchangeRate.currency}"
+            )
         }
 
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
+
             Body1Normal(text = "Amount :")
-            Body2Medium(text = convertedAmount.toPlainString())
+            Body2Medium(text = convertedAmount.toPlainString() + " ${exchangeRate.currency}")
         }
     }
     VerticalDivider(dp = 8.dp)
@@ -320,7 +325,7 @@ fun FlowRow(
                 .wrapContentWidth()
                 .padding(8.dp)
                 .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFF9681EB))
+                .background(MaterialTheme.colorScheme.primaryContainer)
 
             Row(
                 modifier = itemModifier,
@@ -332,7 +337,8 @@ fun FlowRow(
                     modifier = Modifier
                         .weight(9f)
                         .padding(8.dp),
-                    text = "${item.currency} " + currencyName
+                    text = "${item.currency} " + currencyName,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
                 ComposeIcon(
                     modifier = Modifier
@@ -342,7 +348,7 @@ fun FlowRow(
                         .clickable {
                             onRemove.invoke(index, item)
                         },
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     icon = "ic_cross.xml"
                 )
             }
@@ -354,10 +360,11 @@ fun FlowRow(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrencyExposedDropdownMenuBox(
+    placeHolderText: String,
     modifier: Modifier = Modifier,
     defaultText: String,
     currencyRateState: ExchangeRateScreenState,
-    onItemSelected: (selectedCurrency: ExchangeRate) -> Unit = {}
+    onItemSelected: (selectedCurrency: ExchangeRate) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedText by remember { mutableStateOf(defaultText) }
@@ -372,8 +379,11 @@ fun CurrencyExposedDropdownMenuBox(
                 expanded = !expanded
             }
         ) {
-            TextField(
+            OutlinedTextField(
                 value = selectedText,
+                label = {
+                    Body2Medium(placeHolderText)
+                },
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },

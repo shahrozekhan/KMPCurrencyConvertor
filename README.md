@@ -16,11 +16,18 @@ The application has been built using clean architecture with following layer:
 ● Domain.
 ● Presentation.
 
-Android && IOS
+**Android Light Theme:**
 
-![Image Alt text](/img.jpeg "Android and IOS")
+![Image Alt text](/android_l.webp "Android Light Mode")
+
+**Android Dark Theme:**
+
+![Image Alt text](/android_d.webp "Android Dark Mode")
+
+**Iphone Light:**
+
+![Image Alt text](/iphone_l.webp "Iphone Light")
 
 Next Target:
 
-● Improve design.
 ● Create Destop Version
