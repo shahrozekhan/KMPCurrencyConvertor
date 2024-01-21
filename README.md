@@ -29,6 +29,8 @@ The application has been built using clean architecture with following layer:
 ![Image Alt text](/android_d.webp "Android Dark Mode")
 **Iphone Light:**
 ![Image Alt text](/iphone_l.webp "Iphone Light")
+**Legancy Android And IOS:**
+![Image Alt text](/img.webp "Legancy Android And IOS")
 
 **Next Target:**
 
