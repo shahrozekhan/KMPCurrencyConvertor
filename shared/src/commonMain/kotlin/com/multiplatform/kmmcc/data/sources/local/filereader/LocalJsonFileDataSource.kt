@@ -1,11 +1,11 @@
-package com.multiplatform.kmmcc.data.sources.local
+package com.multiplatform.kmmcc.data.sources.local.filereader
 
 import com.multiplatform.kmmcc.common.base.Resource
 import kotlinx.serialization.json.Json
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.resource
 
-class LocalJsonFileReader {
+class LocalJsonFileDataSource {
 
     val parseException = LocalJsonExceptionParser()
 

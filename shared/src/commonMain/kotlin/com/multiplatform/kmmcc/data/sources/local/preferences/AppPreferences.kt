@@ -1,10 +1,10 @@
-package com.multiplatform.kmmcc.data.sources.local
+package com.multiplatform.kmmcc.data.sources.local.preferences
 
 import com.multiplatform.kmmcc.common.Constants.ExchangeRateConstants.DEFAULT_CURRENCY
 import com.multiplatform.kmmcc.common.KMMPreferences
 import com.multiplatform.kmmcc.common.utils.empty
-import com.multiplatform.kmmcc.data.sources.local.PreferenceKeys.BASE_CURRENCY
-import com.multiplatform.kmmcc.data.sources.local.PreferenceKeys.TIME_STAMP
+import com.multiplatform.kmmcc.data.sources.local.preferences.PreferenceKeys.BASE_CURRENCY
+import com.multiplatform.kmmcc.data.sources.local.preferences.PreferenceKeys.TIME_STAMP
 
 class AppPreferences (private val platformPreferences: KMMPreferences) {
 

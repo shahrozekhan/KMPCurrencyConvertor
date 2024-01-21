@@ -6,8 +6,8 @@ import com.multiplatform.kmmcc.common.KMMPreferences
 import com.multiplatform.kmmcc.data.repository.ExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.repository.FavoriteExchangeRateRepositoryImpl
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
-import com.multiplatform.kmmcc.data.sources.local.AppPreferences
-import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
+import com.multiplatform.kmmcc.data.sources.local.preferences.AppPreferences
+import com.multiplatform.kmmcc.data.sources.local.filereader.LocalJsonFileDataSource
 import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
 import com.multiplatform.kmmcc.database.ExchangeRateDB
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
@@ -94,5 +94,5 @@ fun commonMainModules(context: KMMContext) = module {
     single { RemoteErrorParser() }
     single { KMMPreferences(context) }
     single { AppPreferences(get()) }
-    single { LocalJsonFileReader() }
+    single { LocalJsonFileDataSource() }
 }

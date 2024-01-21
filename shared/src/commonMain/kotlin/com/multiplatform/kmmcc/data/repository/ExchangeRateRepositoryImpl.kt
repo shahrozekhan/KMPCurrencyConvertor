@@ -5,8 +5,8 @@ import com.multiplatform.kmmcc.common.base.Resource
 import com.multiplatform.kmmcc.common.utils.buildExchangeRateDtoListSortedByCurrency
 import com.multiplatform.kmmcc.data.dto.ExchangeRateDto
 import com.multiplatform.kmmcc.data.dto.ExchangeRateResponseDto
-import com.multiplatform.kmmcc.data.sources.local.AppPreferences
-import com.multiplatform.kmmcc.data.sources.local.LocalJsonFileReader
+import com.multiplatform.kmmcc.data.sources.local.preferences.AppPreferences
+import com.multiplatform.kmmcc.data.sources.local.filereader.LocalJsonFileDataSource
 import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
 import com.multiplatform.kmmcc.database.ExchangeRateDB
 import com.multiplatform.kmmcc.domain.model.toExchangeRateEntity
@@ -20,7 +20,7 @@ class ExchangeRateRepositoryImpl(
     private val exchangeRateDataSource: ExchangeRateDataSource,
     private val exchangeRateDb: ExchangeRateDB,
     private val defaultDispatcher: CoroutineDispatcher,
-    private val fileDataSource: LocalJsonFileReader,
+    private val fileDataSource: LocalJsonFileDataSource,
     private val appPreferences: AppPreferences
 ) : ExchangeRateRepository {
 

@@ -4,7 +4,7 @@ import com.multiplatform.kmmcc.common.base.RemoteResource
 import com.multiplatform.kmmcc.common.base.Resource
 import com.multiplatform.kmmcc.common.utils.TimeStampUtils
 import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
-import com.multiplatform.kmmcc.data.sources.local.AppPreferences
+import com.multiplatform.kmmcc.data.sources.local.preferences.AppPreferences
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.domain.model.toExchangeRate
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository

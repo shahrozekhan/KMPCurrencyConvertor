@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.data.sources.local
+package com.multiplatform.kmmcc.data.sources.local.filereader
 
 import io.ktor.serialization.*
 
