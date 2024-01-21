@@ -1,37 +1,52 @@
-# **Currency Conversion Application**
-This is Compose Multiplatform currency conversion application which built upon the concept of clean MVVM architecture. Following Restful webservice has been used for API http://api.exchangeratesapi.io
+# Currency Conversion Application
 
-It has been built using the following Kotlin Multi platform libraries:
+Welcome to the Currency Conversion Application repository! This Compose Multiplatform currency conversion application is built upon the principles of a clean MVVM architecture. The application leverages the Restful webservice provided by [exchangeratesapi.io](http://api.exchangeratesapi.io).
 
-● Compose Multiplatform.
+## Key Features:
 
-● Koin
+- **Compose Multiplatform:** The application utilizes the power of Kotlin Multiplatform and Compose for building a consistent UI across platforms.
+- **Koin:** Dependency injection is handled by Koin, ensuring a modular and maintainable codebase.
+- **Sql Delight:** Database operations are streamlined with Sql Delight, providing a seamless and type-safe database interaction.
+- **Ktor:** Network requests are managed by Ktor, enabling efficient and asynchronous communication with the API.
+- **Moko (Mvvm and Flow):** Moko libraries are employed for implementing the MVVM architecture and handling data flow within the application.
+- **KotlinX Coroutines:** Asynchronous programming is achieved using Kotlin coroutines, ensuring a responsive user experience.
 
-● Sql Delight.
+## Architecture:
 
-● Ktor.
+The application follows a clean architecture with the following layers:
 
-● Moko (Mvvm and flow)
+- **Data:** Manages data access, including network and database operations.
+- **Domain:** Contains the business logic and domain-specific entities.
+- **Presentation:** Handles UI-related logic and interacts with the ViewModel.
 
-● KotlinX coroutines.
-
-The application has been built using clean architecture with following layer:
-
-● Data.
-
-● Domain.
-
-● Presentation.
+## Screenshots:
 
 **Android Light Theme:**
-![Image Alt text](/android_l.webp "Android Light Mode")
+![Android Light Mode](/android_l.webp)
+
 **Android Dark Theme:**
-![Image Alt text](/android_d.webp "Android Dark Mode")
-**Iphone Light:**
-![Image Alt text](/iphone_l.webp "Iphone Light")
-**Legancy Android And IOS:**
-![Image Alt text](/img.jpeg "Legancy Android And IOS")
+![Android Dark Mode](/android_d.webp)
 
-**Next Target:**
+**iPhone Light:**
+![iPhone Light](/iphone_l.webp)
 
-● Create Destop Version
+**Legacy Android and iOS:**
+![Legacy Android And iOS](/img.jpeg)
+
+## Next Target:
+
+The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
+
+## Getting Started:
+
+To explore the application and run it locally, follow the steps outlined in the [documentation](/docs/getting-started.md).
+
+## Contributing:
+
+If you're interested in contributing to the project, please refer to the [contribution guidelines](/CONTRIBUTING.md) for more details.
+
+## License:
+
+This project is licensed under the [MIT License](/LICENSE).
+
+Thank you for checking out the Currency Conversion Application! Feel free to explore the codebase and provide feedback. Happy coding! 🚀
