@@ -35,7 +35,13 @@ The application follows a clean architecture with the following layers:
 
 ## Next Target:
 
-The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
+- The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
+- Add Splash screen (Navigation [Voyger](https://voyager.adriel.cafe/))
+- Mark the currencies Favorite and Add them to database.
+- Add SSO (Single Sign-On) feature using firebase (Save favorite currencies, show trends and graphs)
+- Add Firebase analytics for Crash reports and Analytics.
+- Documentation -> [Kdoc](https://kotlinlang.org/docs/kotlin-doc.html) -> dokka documentation.
+- Code Coverage -> Add [jacoco plugin](https://docs.gradle.org/current/userguide/jacoco_plugin.html)
 
 ## Getting Started:
 
