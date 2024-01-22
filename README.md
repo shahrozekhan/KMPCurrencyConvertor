@@ -30,9 +30,6 @@ The application follows a clean architecture with the following layers:
 **iPhone Light:**
 ![iPhone Light](/iphone_l.webp)
 
-**Legacy Android and iOS:**
-![Legacy Android And iOS](/img.jpeg)
-
 ## Next Target:
 
 - The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
