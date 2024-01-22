@@ -36,6 +36,7 @@ The application follows a clean architecture with the following layers:
 ## Next Target:
 
 - The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
+- Add Search in From and To Currencies.
 - Add Splash screen (Navigation [Voyger](https://voyager.adriel.cafe/))
 - Mark the currencies Favorite and Add them to database.
 - Add SSO (Single Sign-On) feature using firebase (Save favorite currencies, show trends and graphs)
