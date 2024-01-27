@@ -19,7 +19,7 @@ import com.multiplatform.kmmcc.domain.usecases.exchangerate.SaveFromExchangeRate
 import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
 import com.multiplatform.kmmcc.platformKoinModule
-import com.multiplatform.kmmcc.presentation.components.ExchangeRateViewModel
+import com.multiplatform.kmmcc.presentation.components.conversionscreen.ExchangeRateViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.context.startKoin

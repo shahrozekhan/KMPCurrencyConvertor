@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.presentation.components
+package com.multiplatform.kmmcc.presentation.components.conversionscreen
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.State

@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.presentation.components
+package com.multiplatform.kmmcc.presentation.components.conversionscreen
 
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 
