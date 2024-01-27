@@ -12,6 +12,7 @@ Welcome to the Currency Conversion Application repository! This Compose Multipla
 - ✅ **[Kotlinx.datetime](https://kotlinlang.org/docs/datetime/):** Simplifies date and time-related functionalities.
 - ✅ **[Material Design](https://material.io/design):** Adheres to Material Design principles for a visually appealing experience.
 - ✅ **[kotlinx-coroutines](https://kotlinlang.org/docs/coroutines-overview.html):** Asynchronous programming and managing background tasks.
+- ✅ **[Ktor](https://ktor.io/docs/getting-started-ktor-client-multiplatform-mobile.html):** Network requests are managed by Ktor, enabling efficient and asynchronous communication with the API.
 
 ## Architecture:
 
