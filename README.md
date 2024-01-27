@@ -4,20 +4,23 @@ Welcome to the Currency Conversion Application repository! This Compose Multipla
 
 ## Key Features:
 
-- **Compose Multiplatform:** The application utilizes the power of Kotlin Multiplatform and Compose for building a consistent UI across platforms.
-- **Koin:** Dependency injection is handled by Koin, ensuring a modular and maintainable codebase.
-- **Sql Delight:** Database operations are streamlined with Sql Delight, providing a seamless and type-safe database interaction.
-- **Ktor:** Network requests are managed by Ktor, enabling efficient and asynchronous communication with the API.
-- **Moko (Mvvm and Flow):** Moko libraries are employed for implementing the MVVM architecture and handling data flow within the application.
-- **KotlinX Coroutines:** Asynchronous programming is achieved using Kotlin coroutines, ensuring a responsive user experience.
+- ✅ **[Compose UI](https://developer.android.com/jetpack/compose):** Crafted with Jetpack Compose for a sleek and responsive user interface.
+- ✅ **[Multiplatform](https://kotlinlang.org/docs/mpp-intro.html):** Ensures cross-platform compatibility and consistency.
+- ✅ **[Moko Resources(Mvvm and Flow)](https://github.com/icerockdev/moko-resources):** Moko libraries are employed for implementing the MVVM architecture and handling data flow within the application.
+- ✅ **[Koin](https://insert-koin.io/):** Efficient dependency injection across different platforms.
+- ✅ **[SQLDelight](https://cashapp.github.io/sqldelight/2.0.1/multiplatform_sqlite/):** Efficient and maintainable data management.
+- ✅ **[Kotlinx.datetime](https://kotlinlang.org/docs/datetime/):** Simplifies date and time-related functionalities.
+- ✅ **[Material Design](https://material.io/design):** Adheres to Material Design principles for a visually appealing experience.
+- ✅ **[kotlinx-coroutines](https://kotlinlang.org/docs/coroutines-overview.html):** Asynchronous programming and managing background tasks.
 
 ## Architecture:
 
 The application follows a clean architecture with the following layers:
+![MVVM Clean Architecture - Repository Pattern And Usecases.](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*5eJUx2N-5IKoIJNO.png)
 
-- **Data:** Manages data access, including network and database operations.
-- **Domain:** Contains the business logic and domain-specific entities.
-- **Presentation:** Handles UI-related logic and interacts with the ViewModel.
+- ✅ **Data:** Manages data access, including network and database operations.
+- ✅ **Domain:** Contains the business logic and domain-specific entities.
+- ✅ **Presentation:** Handles UI-related logic and interacts with the ViewModel.
 
 ## Screenshots:
 
