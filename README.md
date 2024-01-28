@@ -18,6 +18,7 @@ Welcome to the Currency Conversion Application repository! This Compose Multipla
 ## Architecture:
 
 The application follows a clean architecture with the following layers:
+
 ![MVVM Clean Architecture - Repository Pattern And Usecases.](https://miro.medium.com/v2/resize:fit:1400/format:webp/0*5eJUx2N-5IKoIJNO.png)
 
 - ✅ **Data:** Manages data access, including network and database operations.
