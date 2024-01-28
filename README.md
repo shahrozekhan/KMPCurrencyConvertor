@@ -29,12 +29,11 @@ The application follows a clean architecture with the following layers:
 **Android Light Theme:**
 ![Android Light Mode](/android_l.webp)
 
-**Android Dark Theme Arabic Mode:**
-
-![Android Arabic](/multi_lingual.jpg) 
-
 **Android Dark Theme:**
 ![Android Dark Mode](/android_d.webp)
+
+**Android Multi Lingual Support:**
+![Android Arabic](/multi_lingual.jpg)
 
 **iPhone Light:**
 ![iPhone Light](/iphone_l.webp)
