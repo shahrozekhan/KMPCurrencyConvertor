@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Currency Convertor</string>
+    <string name="tv_from">From</string>
+    <string name="tv_to">To</string>
+    <string name="tv_amount">Amount</string>
+    <string name="tv_select_currency">Select Currency</string>
+    <string name="tv_select_currencies">Select More Currencies</string>
+    <string name="tv_convert">Convert</string>
+
+</resources>

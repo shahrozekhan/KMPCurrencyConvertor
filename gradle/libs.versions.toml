@@ -1,15 +1,15 @@
 [versions]
-agp = "8.2.0"
+agp = "8.2.2"
 kotlin = "1.9.21"
 #androidx compose dependencies. Donot remove.
 compose-material3 = "1.1.2"
-compose = "1.5.4"
+compose = "1.6.0"
 compose-compiler = "1.5.7"
 androidx-activityCompose = "1.8.2"
 #Jet brains Multi Platform Compose.
 koin = "3.5.3"
 koin-compose = "1.1.2"
-compose_multiplaform = "1.5.11"
+compose_multiplaform = "1.6.0-beta01"
 coreKtx = "1.12.0" # https://developer.android.com/jetpack/androidx/releases/core
 # MVVM
 mvvmCore = "0.16.1"

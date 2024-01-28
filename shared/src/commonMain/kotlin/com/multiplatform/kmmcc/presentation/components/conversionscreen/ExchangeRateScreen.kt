@@ -58,11 +58,14 @@ import com.multiplatform.kmmcc.common.views.HeadingMedium
 import com.multiplatform.kmmcc.common.views.VerticalDivider
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.presentation.CommonUIEvent
+import kmmcc.shared.generated.resources.Res
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
 
-class ExchangeRateScreen :Screen{
+class ExchangeRateScreen : Screen {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
@@ -71,7 +74,7 @@ class ExchangeRateScreen :Screen{
 
 }
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun ConversionScreen() {
@@ -120,7 +123,7 @@ fun ConversionScreen() {
                             .background(MaterialTheme.colorScheme.background)
                             .fillMaxWidth()
                             .padding(top = 16.dp, bottom = 16.dp),
-                        text = "Currency Convertor",
+                        text = stringResource(Res.string.app_name),
                         color = MaterialTheme.colorScheme.onBackground
                     )
                 }
@@ -136,7 +139,7 @@ fun ConversionScreen() {
                                     val currencyName =
                                         if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
                                     CurrencyExposedDropdownMenuBox(
-                                        placeHolderText = "From",
+                                        placeHolderText = stringResource(Res.string.tv_from),
                                         modifier = Modifier/*.weight(0.85f)*/,
                                         defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
                                         currencyRateState = currencyRateState
@@ -161,17 +164,17 @@ fun ConversionScreen() {
 
                             Column {
                                 VerticalDivider(dp = 8.dp)
-                                val textState by remember {
-                                    mutableStateOf(
-                                        if (currencyRateState.favoriteCurrencies.isNullOrEmpty()) {
-                                            "Select Currency"
-                                        } else {
-                                            "Select More Currencies"
-                                        }
-                                    )
-                                }
+                                val textState = stringResource(Res.string.tv_select_currency)
+//                                by remember {
+//                                    mutableStateOf(
+//                                        if (currencyRateState.favoriteCurrencies.isNullOrEmpty()) {
+//                                        } else {
+//                                            "Select More Currencies"
+//                                        }
+//                                    )
+//                                }
                                 CurrencyExposedDropdownMenuBox(
-                                    placeHolderText = "To",
+                                    placeHolderText = stringResource(Res.string.tv_to),
                                     defaultText = textState,
                                     currencyRateState = currencyRateState
                                 ) { selectedCurrency ->
@@ -215,7 +218,7 @@ fun ConversionScreen() {
                             },
                             label = {
                                 Body2Medium(
-                                    "Amount (${currencyRateState.fromCurrency.currency})"
+                                    "${stringResource(Res.string.tv_amount)} (${currencyRateState.fromCurrency.currency})"
                                 )
                             },
                             textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground),
@@ -226,7 +229,7 @@ fun ConversionScreen() {
                         ComposeButton(
                             modifier = Modifier
                                 .fillMaxWidth(1f),
-                            text = "Convert",
+                            text = stringResource(Res.string.tv_convert),
                             enabled = !currencyRateState.isCurrenciesLoading &&
                                     !currencyRateState.isFavoriteLoading &&
                                     !currencyRateState.isConverting &&
@@ -256,19 +259,19 @@ fun ConversionScreen() {
                 currencyRateState.isConverting ||
                 currencyRateState.isForceSyncingExchangeRate
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(64.dp),
-                    color = MaterialTheme.colorScheme.primary,
-                    strokeWidth = 4.dp,
-                )
+//                CircularProgressIndicator(
+//                    modifier = Modifier
+//                        .align(Alignment.Center)
+//                        .width(64.dp),
+//                    color = MaterialTheme.colorScheme.primary,
+//                    strokeWidth = 4.dp,
+//                )
             }
         }
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 @Composable
 fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: ExchangeRateViewModel) {
     val exchangeRate = pair.first
@@ -313,7 +316,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: Exchange
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
 
-            Body1Normal(text = "Amount :")
+            Body1Normal(text = "${stringResource(Res.string.tv_amount)} :")
             Body2Medium(text = convertedAmount.toPlainString() + " ${exchangeRate.currency}")
         }
     }
@@ -321,7 +324,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: Exchange
 
 }
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 @Composable
 fun FlowRow(
     toSelectedCurrencyList: List<ExchangeRate>?,
@@ -360,7 +363,7 @@ fun FlowRow(
                             onRemove.invoke(index, item)
                         },
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    icon = "ic_cross.xml"
+                    icon = Res.drawable.ic_cross
                 )
             }
         }

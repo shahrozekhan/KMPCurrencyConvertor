@@ -30,13 +30,17 @@ import com.multiplatform.kmmcc.common.Constants
 import com.multiplatform.kmmcc.common.views.HeadingMedium
 import com.multiplatform.kmmcc.common.views.OvershootInterpolator
 import com.multiplatform.kmmcc.presentation.components.conversionscreen.ExchangeRateScreen
+import kmmcc.shared.generated.resources.Res
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 class SplashScreen : Screen {
     @Composable
@@ -92,7 +96,6 @@ fun Splash() {
                 )
             }
             delay(Constants.SPLASH_DURATION)
-            navigator.popUntilRoot()
             navigator.replace(ExchangeRateScreen())
         }
     }
@@ -106,14 +109,13 @@ fun Splash() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource("splash_logo.xml"),
+                painter = painterResource(Res.drawable.splash_logo),
                 contentDescription = "Logo",
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary),
                 modifier = Modifier.size(150.dp).scale(scale.value).rotate(rotate.value),
             )
-
             HeadingMedium(
-                "Currency Convertor",
+                stringResource(Res.string.app_name),
                 modifier = Modifier.alpha(texScale.value).graphicsLayer {
                     scaleX = texScale.value
                     scaleY = texScale.value

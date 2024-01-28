@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -72,7 +73,7 @@ fun VerticalDivider(
 @Composable
 fun ComposeIcon(
     modifier: Modifier = Modifier,
-     icon: String,
+     icon: DrawableResource,
     contentDescription: String? = null,
     tint: Color = Color.Unspecified
 ) {

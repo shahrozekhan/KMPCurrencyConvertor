@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">محول العملات</string>
+    <string name="tv_from">من</string>
+    <string name="tv_to">إلى</string>
+    <string name="tv_amount">المبلغ</string>
+    <string name="tv_select_currency">اختر العملة</string>
+    <string name="tv_select_currencies">اختر المزيد من العملات</string>
+    <string name="tv_convert">تحويل</string>
+</resources>

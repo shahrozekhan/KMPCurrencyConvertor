@@ -10,12 +10,16 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import kmmcc.shared.generated.resources.Res
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.Font
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun typography(): Typography {
     val convergenceNormal = FontFamily(
-        font(
-            "convergence", "convergence_normal", FontWeight.Normal, FontStyle.Normal
+        Font(
+            Res.font.convergence_normal, FontWeight.Normal, FontStyle.Normal
         )
     )
 

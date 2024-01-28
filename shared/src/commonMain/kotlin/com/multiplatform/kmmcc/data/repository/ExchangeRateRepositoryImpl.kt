@@ -25,11 +25,11 @@ class ExchangeRateRepositoryImpl(
 ) : ExchangeRateRepository {
 
     override suspend fun getExchangeRatesFromAssets(): Resource<List<ExchangeRateDto>> {
-        val exchangeRateStr = fileDataSource.loadJsonFile("exchangerate.json")
+        val exchangeRateStr = fileDataSource.loadJsonFile("files/exchangerate.json")
         val exchangeRate = fileDataSource.loadJsonFileFromResources<ExchangeRateResponseDto>(
             exchangeRateStr
         )
-        val symbolStr = fileDataSource.loadJsonFile("symbols.json")
+        val symbolStr = fileDataSource.loadJsonFile("files/symbols.json")
         val symbols = fileDataSource.loadJsonFileFromResources<ExchangeRateResponseDto>(
             symbolStr
         )

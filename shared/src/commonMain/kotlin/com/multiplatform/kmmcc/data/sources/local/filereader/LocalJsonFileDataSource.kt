@@ -2,16 +2,16 @@ package com.multiplatform.kmmcc.data.sources.local.filereader
 
 import com.multiplatform.kmmcc.common.base.Resource
 import kotlinx.serialization.json.Json
-import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
+import org.jetbrains.compose.resources.InternalResourceApi
+import org.jetbrains.compose.resources.readResourceBytes
 
 class LocalJsonFileDataSource {
 
     val parseException = LocalJsonExceptionParser()
 
-    @OptIn(ExperimentalResourceApi::class)
+    @OptIn( InternalResourceApi::class)
     suspend fun loadJsonFile(fileName: String): String {
-        val jsonStr = resource(fileName).readBytes().decodeToString()
+        val jsonStr = readResourceBytes(fileName).decodeToString()
         return jsonStr
     }
 
