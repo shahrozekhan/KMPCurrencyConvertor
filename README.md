@@ -33,6 +33,7 @@ The application follows a clean architecture with the following layers:
 ![Android Dark Mode](/android_d.webp)
 
 **Android Multi Lingual Support:**
+
 ![Android Arabic](/multi_lingual.jpg)
 
 **iPhone Light:**
