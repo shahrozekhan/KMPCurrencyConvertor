@@ -56,4 +56,8 @@ To explore the application and run it locally, follow the steps outlined in the 
 
 If you're interested in contributing to the project, please refer to the [contribution guidelines](/CONTRIBUTING.md) for more details.
 
+## License:
+
+This project is licensed under the [MIT License](/LICENSE).
+
 Thank you for checking out the Currency Conversion Application! Feel free to explore the codebase and provide feedback. Happy coding! 🚀
