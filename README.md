@@ -1,4 +1,4 @@
-# Currency Conversion Application: Convert currencies accross different platforms! 💊🚀
+# Currency Conversion Application: Convert currencies accross different platforms! 💱🚀
 
 Welcome to the Currency Conversion Application repository! This Compose Multiplatform currency conversion application is built upon the principles of a clean MVVM architecture. The application leverages the Restful webservice provided by [exchangeratesapi.io](http://api.exchangeratesapi.io).
 
