@@ -31,7 +31,7 @@ The application follows a clean architecture with the following layers:
 
 **Android Dark Theme Arabic Mode:**
 
-![Android Arabic](/multi_lingual_support.png) ![Android Arabic](/multi_lingual_support1.png) ![Android Arabic](/multi_lingual_support2.png)
+![Android Arabic](/multi_lingual.jpg) 
 
 **Android Dark Theme:**
 ![Android Dark Mode](/android_d.webp)
