@@ -5,6 +5,7 @@ Welcome to the Currency Conversion Application repository! This Compose Multipla
 ## Key Features:
 
 - ✅ **[Compose UI](https://developer.android.com/jetpack/compose):** Crafted with Jetpack Compose for a sleek and responsive user interface.
+- ✅ **[Voyger](https://voyager.adriel.cafe/):** A multiplatform navigation library built for, and seamlessly integrated with, Jetpack Compose.
 - ✅ **[Multiplatform](https://kotlinlang.org/docs/mpp-intro.html):** Ensures cross-platform compatibility and consistency.
 - ✅ **[Moko Resources(Mvvm and Flow)](https://github.com/icerockdev/moko-resources):** Moko libraries are employed for implementing the MVVM architecture and handling data flow within the application.
 - ✅ **[Koin](https://insert-koin.io/):** Efficient dependency injection across different platforms.
@@ -41,7 +42,6 @@ The application follows a clean architecture with the following layers:
 
 - The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
 - Add Search in From and To Currencies.
-- Add Splash screen (Navigation [Voyger](https://voyager.adriel.cafe/))
 - Mark the currencies Favorite and Add them to database.
 - Add SSO (Single Sign-On) feature using firebase (Save favorite currencies, show trends and graphs)
 - Add Firebase analytics for Crash reports and Analytics.
