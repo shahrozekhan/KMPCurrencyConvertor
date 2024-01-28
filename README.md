@@ -10,7 +10,7 @@ Welcome to the Currency Conversion Application repository! This Compose Multipla
 - ✅ **[Koin](https://insert-koin.io/):** Efficient dependency injection across different platforms.
 - ✅ **[SQLDelight](https://cashapp.github.io/sqldelight/2.0.1/multiplatform_sqlite/):** Efficient and maintainable data management.
 - ✅ **[Kotlinx.datetime](https://kotlinlang.org/docs/datetime/):** Simplifies date and time-related functionalities.
-- ✅ **[Material Design](https://material.io/design):** Adheres to Material Design principles for a visually appealing experience.
+- ✅ **[Material Design](https://material.io/design):** Adheres to Material Design principles for a visually appealing experience, supporting dyanmic Colors.
 - ✅ **[kotlinx-coroutines](https://kotlinlang.org/docs/coroutines-overview.html):** Asynchronous programming and managing background tasks.
 - ✅ **[Ktor](https://ktor.io/docs/getting-started-ktor-client-multiplatform-mobile.html):** Network requests are managed by Ktor, enabling efficient and asynchronous communication with the API.
 
@@ -33,6 +33,9 @@ The application follows a clean architecture with the following layers:
 
 **iPhone Light:**
 ![iPhone Light](/iphone_l.webp)
+
+**Android Dyanmic Colors(Light && Dark Theme):**
+![Android Dyanmic Colors Dark Theme](/dyanmic_color_support.jpg)
 
 ## Next Target:
 

@@ -23,9 +23,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.multiplatform.kmmcc.common.Constants
 import com.multiplatform.kmmcc.common.views.HeadingMedium
 import com.multiplatform.kmmcc.common.views.OvershootInterpolator
+import com.multiplatform.kmmcc.presentation.components.conversionscreen.ExchangeRateScreen
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -34,9 +38,19 @@ import kotlinx.coroutines.withContext
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
+class SplashScreen : Screen {
+    @Composable
+    override fun Content() {
+        Splash()
+    }
+
+}
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun SplashScreen() {
+fun Splash() {
+    val navigator = LocalNavigator.currentOrThrow
+
     val scale = remember {
         Animatable(0f)
     }
@@ -58,7 +72,7 @@ fun SplashScreen() {
                 scale.animateTo(
                     targetValue = 1f,
                     animationSpec = tween(
-                        durationMillis = 2000,
+                        durationMillis = 1000,
                         easing = {
                             scaleInterpolator.getInterpolation(it)
                         }
@@ -68,17 +82,18 @@ fun SplashScreen() {
             launch {
                 rotate.animateTo(
                     targetValue = 180f,
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
+                    animationSpec = tween(250, easing = FastOutLinearInEasing)
                 )
             }
             launch {
                 texScale.animateTo(
                     targetValue = 1f,
-                    animationSpec = tween(400, easing = FastOutLinearInEasing)
+                    animationSpec = tween(200, easing = FastOutLinearInEasing)
                 )
             }
             delay(Constants.SPLASH_DURATION)
-            //TODO apply navigation.....
+            navigator.popUntilRoot()
+            navigator.replace(ExchangeRateScreen())
         }
     }
     Box(
@@ -97,11 +112,15 @@ fun SplashScreen() {
                 modifier = Modifier.size(150.dp).scale(scale.value).rotate(rotate.value),
             )
 
-            HeadingMedium("Currency Convertor", modifier = Modifier.alpha(texScale.value).graphicsLayer {
-                scaleX = texScale.value
-                scaleY = texScale.value
-                transformOrigin = TransformOrigin.Center
-            }, color = MaterialTheme.colorScheme.primary)
+            HeadingMedium(
+                "Currency Convertor",
+                modifier = Modifier.alpha(texScale.value).graphicsLayer {
+                    scaleX = texScale.value
+                    scaleY = texScale.value
+                    transformOrigin = TransformOrigin.Center
+                },
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

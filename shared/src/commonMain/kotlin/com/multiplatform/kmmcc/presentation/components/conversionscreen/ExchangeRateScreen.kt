@@ -43,8 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cafe.adriel.voyager.core.screen.Screen
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.multiplatform.kmmcc.common.utils.containsDigitsAndDecimalOnly
@@ -61,10 +61,20 @@ import com.multiplatform.kmmcc.presentation.CommonUIEvent
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
+
+class ExchangeRateScreen :Screen{
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    override fun Content() {
+        ConversionScreen()
+    }
+
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun ExchangeRateScreen() {
+fun ConversionScreen() {
     val viewModel: ExchangeRateViewModel = koinInject<ExchangeRateViewModel>()
     val currencyRateState = viewModel.exchangeRateViewState.value
 
@@ -86,6 +96,7 @@ fun ExchangeRateScreen() {
             }
         }
     }
+
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) {
@@ -108,10 +119,9 @@ fun ExchangeRateScreen() {
                         modifier = Modifier
                             .background(MaterialTheme.colorScheme.background)
                             .fillMaxWidth()
-                            .padding(top = 16.dp),
+                            .padding(top = 16.dp, bottom = 16.dp),
                         text = "Currency Convertor",
-                        color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Center
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
                 item {
@@ -187,6 +197,7 @@ fun ExchangeRateScreen() {
                 }
                 stickyHeader {
                     Column(
+                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         VerticalDivider(dp = 8.dp)
@@ -214,7 +225,7 @@ fun ExchangeRateScreen() {
 
                         ComposeButton(
                             modifier = Modifier
-                                .fillMaxWidth(0.9f),
+                                .fillMaxWidth(1f),
                             text = "Convert",
                             enabled = !currencyRateState.isCurrenciesLoading &&
                                     !currencyRateState.isFavoriteLoading &&

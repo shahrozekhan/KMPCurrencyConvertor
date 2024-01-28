@@ -25,6 +25,9 @@ coroutines-version = "1.7.3"
 #sql delight version for database.
 sqlDelightVersion = "2.0.1"
 
+#voayger
+voyager = "1.0.0"
+
 #third party big numbers.
 kotlinx-bignum = "0.3.8"
 
@@ -64,7 +67,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 
 #ios and android:
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
-ktor-android = {group = "io.ktor",name="ktor-client-android", version.ref = "ktor_version"}
+ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor_version" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
 
 #koin for kotlin:
@@ -85,6 +88,12 @@ kmp-sqldelight = { group = "app.cash.sqldelight", name = "runtime", version.ref 
 kmp-sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
 kmp-sqldelight-ios = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
 
+#Voyager library:
+voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
+voyager-bottomSheetNavigator = { group = "cafe.adriel.voyager", name = "voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tabNavigator = { group = "cafe.adriel.voyager", name = "voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { group = "cafe.adriel.voyager", name = "voyager-transitions", version.ref = "voyager" }
+
 # bignumbers:
 kotlin-bignum = { group = "com.ionspin.kotlin", name = "bignum", version.ref = "kotlinx-bignum" }
 
@@ -102,4 +111,5 @@ sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
 ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]
 moko = ["mvvm-compose", "mvvm-core", "mvvm-flow", "mvvm-flow-compose", "mvvm-flow-resources", "mvvm-livedata-compose", "mvvm-state"]
 koin = ["koin-core", "koin-compose"]
+voyager = ["voyager-navigator", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions"]
 android-koin = ["koin-androidx-compose", "koin-android"]

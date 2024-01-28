@@ -59,6 +59,8 @@ kotlin {
             api(libs.bundles.ktor)
             //bundle for moko
             api(libs.bundles.moko)
+            //voyager
+            implementation(libs.bundles.voyager)
 
             implementation(libs.kotlinx.date)
             implementation(libs.kotlin.bignum)

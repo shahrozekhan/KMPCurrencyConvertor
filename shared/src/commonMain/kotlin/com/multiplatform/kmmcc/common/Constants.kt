@@ -13,5 +13,5 @@ object Constants {
     }
 
     const val UTF_8 = "UTF-8"
-    const val SPLASH_DURATION = 3000L
+    const val SPLASH_DURATION = 1200L
 }
