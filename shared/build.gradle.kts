@@ -1,3 +1,5 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
@@ -15,6 +17,15 @@ kotlin {
             }
         }
     }
+    jvm("desktop"){
+        compilations.all {
+            kotlinOptions {
+                jvmTarget ="17"
+                noJdk=false
+            }
+        }
+    }
+
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -43,6 +54,8 @@ kotlin {
     }
 
     sourceSets {
+
+        val desktopMain by getting
 
         commonMain.dependencies {
             //put your multiplatform dependencies here
@@ -88,6 +101,17 @@ kotlin {
 
         }
 
+        desktopMain.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(libs.ktor.java)
+            implementation(libs.kmp.sqldelight.jvm)
+            //
+            implementation(libs.kotlinx.coroutines.desktop)
+//            implementation ("ch.qos.logback:logback-classic:1.2.3")
+            implementation ("org.slf4j:slf4j-log4j12:1.7.29")
+
+        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -116,6 +140,18 @@ sqldelight {
         create("ExchangeRateDB") {
             packageName = "com.multiplatform.kmmcc.database"
             srcDirs.setFrom("src/commonMain/sqldelight")
+        }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "com.multiplatform.kmmcc"
+            packageVersion = "1.0.0"
         }
     }
 }

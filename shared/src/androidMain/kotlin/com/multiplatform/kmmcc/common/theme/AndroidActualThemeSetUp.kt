@@ -10,17 +10,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.core.view.WindowCompat
-
-@Composable
-actual fun font(name: String, res: String, weight: FontWeight, style: FontStyle): Font {
-    val context = LocalContext.current
-    val id = context.resources.getIdentifier(res, "font", context.packageName)
-    return Font(id, weight, style)
-}
 
 @Composable
 actual fun CurrencyConvertorTheme(
@@ -41,8 +31,8 @@ actual fun CurrencyConvertorTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.primary.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 

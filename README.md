@@ -28,20 +28,20 @@ The application follows a clean architecture with the following layers:
 ## Screenshots:
 
 **Android Light Theme:**
-![Android Light Mode](/android_l.webp)
+![Android Light Mode](/images/android_l.webp)
 
 **Android Dark Theme:**
-![Android Dark Mode](/android_d.webp)
+![Android Dark Mode](/images/android_d.webp)
 
 **Android Multi Lingual Support:**
 
-![Android Arabic](/multi_lingual.jpg)
+![Android Arabic](/images/multi_lingual.jpg)
 
 **iPhone Light:**
-![iPhone Light](/iphone_l.webp)
+![iPhone Light](/images/iphone_l.webp)
 
 **Android Dyanmic Colors(Light && Dark Theme):**
-![Android Dyanmic Colors Dark Theme](/dynamic_color_support.webp)
+![Android Dyanmic Colors Dark Theme](/images/dynamic_color_support.webp)
 
 ## Next Target:
 
