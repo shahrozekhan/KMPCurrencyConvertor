@@ -21,6 +21,9 @@ kotlinx-date = "0.3.3"
 
 #kotlinx-coroutines.
 coroutines-version = "1.7.3"
+#desktop
+coroutines-desktop-version = "1.7.3"
+
 
 #sql delight version for database.
 sqlDelightVersion = "2.0.1"
@@ -49,7 +52,6 @@ mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref 
 mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mvvmCore" }
 mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow", version.ref = "mvvmCore" }
 mvvm-flow-compose = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "mvvmCore" }
-mvvm-flow-resources = { group = "dev.icerock.moko", name = "mvvm-flow-resources", version.ref = "mvvmCore" }
 mvvm-livedata-compose = { group = "dev.icerock.moko", name = "mvvm-livedata-compose", version.ref = "mvvmCore" }
 mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "mvvmCore" }
 
@@ -68,7 +70,7 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 #ios and android:
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
 ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor_version" }
-ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
+ktor-java = { group = "io.ktor", name="ktor-client-java", version.ref = "ktor_version" }
 
 #koin for kotlin:
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -79,6 +81,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 
 #Kotlinx Corountines:
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines-version" }
+kotlinx-coroutines-desktop = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines-desktop-version" }
 
 #kotlinx date library:
 kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
@@ -87,6 +90,7 @@ kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", ver
 kmp-sqldelight = { group = "app.cash.sqldelight", name = "runtime", version.ref = "sqlDelightVersion" }
 kmp-sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
 kmp-sqldelight-ios = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqlDelightVersion" }
 
 #Voyager library:
 voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
@@ -109,7 +113,7 @@ sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
 
 [bundles]
 ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]
-moko = ["mvvm-compose", "mvvm-core", "mvvm-flow", "mvvm-flow-compose", "mvvm-flow-resources", "mvvm-livedata-compose", "mvvm-state"]
+moko = ["mvvm-compose", "mvvm-core", "mvvm-flow", "mvvm-flow-compose", "mvvm-state"]
 koin = ["koin-core", "koin-compose"]
 voyager = ["voyager-navigator", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions"]
 android-koin = ["koin-androidx-compose", "koin-android"]

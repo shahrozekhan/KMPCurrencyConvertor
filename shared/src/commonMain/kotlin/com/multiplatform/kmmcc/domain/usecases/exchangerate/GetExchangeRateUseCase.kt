@@ -20,24 +20,25 @@ class GetExchangeRateUseCase (
 ) {
     operator fun invoke(): Flow<Resource<List<ExchangeRate>>> = flow {
         emit(Resource.Loading())
-//        loadFromAsset()
-        when (TimeStampUtils.getTimeStampEnum(appPreferences.timeStamp)) {
-            TimeStampState.TODAY -> {
-                loadFromDatabase()
-            }
-
-            TimeStampState.NOT_TODAY -> {
-                loadFromRemote(onError = {
-                    loadFromDatabase()
-                })
-            }
-
-            TimeStampState.NOT_EXIST -> {
-                loadFromRemote(onError = {
-                    loadFromAsset()
-                })
-            }
-        }
+//        loadFromDatabase()
+        loadFromAsset()
+//        when (TimeStampUtils.getTimeStampEnum(appPreferences.timeStamp)) {
+//            TimeStampState.TODAY -> {
+//                loadFromDatabase()
+//            }
+//
+//            TimeStampState.NOT_TODAY -> {
+//                loadFromRemote(onError = {
+//                    loadFromDatabase()
+//                })
+//            }
+//
+//            TimeStampState.NOT_EXIST -> {
+//                loadFromRemote(onError = {
+//                    loadFromAsset()
+//                })
+//            }
+//        }
     }
 
     private suspend fun FlowCollector<Resource<List<ExchangeRate>>>.loadFromAsset() {
