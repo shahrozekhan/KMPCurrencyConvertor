@@ -39,7 +39,7 @@ fun ExchangeRateEntity.toExchangeRate(): ExchangeRate {
 fun ExchangeRateDto.toExchangeRate(): ExchangeRate {
     return ExchangeRate(
         currency,
-        currencyName ?: "",
+        currencyName ,
         rate
     )
 }

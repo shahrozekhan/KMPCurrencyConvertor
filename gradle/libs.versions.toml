@@ -70,7 +70,8 @@ ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version
 #ios and android:
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
 ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor_version" }
-ktor-java = { group = "io.ktor", name="ktor-client-java", version.ref = "ktor_version" }
+#ktor-java = { group = "io.ktor", name="ktor-client-java", version.ref = "ktor_version" }
+ktor-cio = { group = "io.ktor", name="ktor-client-cio", version.ref = "ktor_version" }
 
 #koin for kotlin:
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }

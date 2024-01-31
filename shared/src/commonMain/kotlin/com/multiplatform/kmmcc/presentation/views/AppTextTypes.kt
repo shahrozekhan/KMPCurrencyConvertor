@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.common.views
+package com.multiplatform.kmmcc.presentation.views
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

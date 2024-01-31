@@ -1,10 +1,10 @@
-package com.multiplatform.kmmcc.presentation.components.conversionscreen
+package com.multiplatform.kmmcc.presentation.components.conversion
 
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
 import com.multiplatform.kmmcc.domain.model.appDefaultExchangeRate
 
-data class ExchangeRateScreenState(
+data class CurrencyConversionScreenState(
     val isCurrenciesLoading: Boolean = false,
     val isFavoriteLoading: Boolean = false,
     val isConverting: Boolean = false,

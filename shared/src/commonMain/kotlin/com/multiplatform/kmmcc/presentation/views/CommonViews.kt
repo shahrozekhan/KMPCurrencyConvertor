@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.common.views
+package com.multiplatform.kmmcc.presentation.views
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

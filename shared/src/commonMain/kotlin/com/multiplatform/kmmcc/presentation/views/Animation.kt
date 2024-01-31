@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.common.views
+package com.multiplatform.kmmcc.presentation.views
 
 import kotlin.math.pow
 

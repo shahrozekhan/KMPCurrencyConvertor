@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.presentation.components.conversionscreen
+package com.multiplatform.kmmcc.presentation.components.conversion
 
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.State
@@ -12,7 +12,7 @@ import com.multiplatform.kmmcc.domain.usecases.exchangerate.GetExchangeRateUseCa
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.SaveFromExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
-import com.multiplatform.kmmcc.presentation.CommonUIEvent
+import com.multiplatform.kmmcc.presentation.CommonScreenEvent
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class ExchangeRateViewModel(
+class CurrencyConversionViewModel(
     private val markExchangeRateToFavoriteUseCase: MarkExchangeRateToFavoriteUseCase,
     private val getFavoriteExchangeRateUseCase: GetFavoriteExchangeRateUseCase,
     private val convertExchangeRateUseCase: ConvertExchangeRateUseCase,
@@ -34,21 +34,21 @@ class ExchangeRateViewModel(
         loadExchangeRate()
     }
 
-    private val _mutableExchangeRateViewState = mutableStateOf(ExchangeRateScreenState())
-    val exchangeRateViewState: State<ExchangeRateScreenState> = _mutableExchangeRateViewState
+    private val _mutableExchangeRateViewState = mutableStateOf(CurrencyConversionScreenState())
+    val exchangeRateViewState: State<CurrencyConversionScreenState> = _mutableExchangeRateViewState
 
-    private val _eventFlow = MutableSharedFlow<CommonUIEvent>()
+    private val _eventFlow = MutableSharedFlow<CommonScreenEvent>()
     val commonEventFlow = _eventFlow.asSharedFlow()
 
-    fun onEvent(event: ExchangeRateScreenEvent) {
+    fun onEvent(event: CurrencyConversionScreenEvent) {
         when (event) {
-            is ExchangeRateScreenEvent.EnteredAmount -> {
+            is CurrencyConversionScreenEvent.EnteredAmount -> {
                 _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
                     amount = event.value
                 )
             }
 
-            is ExchangeRateScreenEvent.SelectFromCurrency -> {
+            is CurrencyConversionScreenEvent.SelectFromCurrency -> {
                 val selectedCurrency =
                     exchangeRateViewState.value.listOfCurrency?.find { event.value == it.currency }
                         ?: ExchangeRate.appDefaultExchangeRate
@@ -57,7 +57,7 @@ class ExchangeRateViewModel(
                 )
             }
 
-            is ExchangeRateScreenEvent.MarkToFavoriteCurrency -> {
+            is CurrencyConversionScreenEvent.MarkToFavoriteCurrency -> {
                 viewModelScope.launch {
                     val newFavoritesList = markExchangeRateToFavoriteUseCase(
                         event.value, exchangeRateViewState.value.favoriteCurrencies
@@ -68,7 +68,7 @@ class ExchangeRateViewModel(
                 }
             }
 
-            is ExchangeRateScreenEvent.RemoveCurrencyFromSelected -> {
+            is CurrencyConversionScreenEvent.RemoveCurrencyFromSelected -> {
                 viewModelScope.launch {
                     val newFavoritesList = markExchangeRateToFavoriteUseCase(
                         event.value, exchangeRateViewState.value.favoriteCurrencies, false
@@ -79,7 +79,7 @@ class ExchangeRateViewModel(
                 }
             }
 
-            is ExchangeRateScreenEvent.ForceSyncExchangeRate -> {
+            is CurrencyConversionScreenEvent.ForceSyncCurrencyConversion -> {
                 forceSyncExchangeRatesUseCase().onEach {
                     when (it) {
                         is Resource.Success -> {
@@ -90,7 +90,7 @@ class ExchangeRateViewModel(
                             )
                             loadFavoriteExchangeRate(onCompleteLoading = {
                                 if (!exchangeRateViewState.value.favoriteCurrencies.isNullOrEmpty()) onEvent(
-                                    ExchangeRateScreenEvent.ConvertExchangeRate
+                                    CurrencyConversionScreenEvent.ConvertCurrencyConversion
                                 )
                             })
                         }
@@ -114,7 +114,7 @@ class ExchangeRateViewModel(
                 }.launchIn(viewModelScope)
             }
 
-            is ExchangeRateScreenEvent.ConvertExchangeRate -> {
+            is CurrencyConversionScreenEvent.ConvertCurrencyConversion -> {
                 viewModelScope.launch {
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
                         isConverting = true
@@ -142,7 +142,7 @@ class ExchangeRateViewModel(
         message: String, duration: SnackbarDuration = SnackbarDuration.Short
     ) {
         _eventFlow.emit(
-            CommonUIEvent.ShowSnackbar(
+            CommonScreenEvent.ShowSnackbar(
                 message = message, duration = duration
             )
         )

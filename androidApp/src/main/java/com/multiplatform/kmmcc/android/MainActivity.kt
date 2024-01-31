@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import com.multiplatform.kmmcc.App
-import com.multiplatform.kmmcc.presentation.components.splash.SplashScreen
+import com.multiplatform.kmmcc.presentation.screen.SplashScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

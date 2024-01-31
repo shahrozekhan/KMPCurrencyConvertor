@@ -11,6 +11,9 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.multiplatform.kmmcc.common.theme.DarkColorScheme
+import com.multiplatform.kmmcc.common.theme.LightColorScheme
+import com.multiplatform.kmmcc.common.theme.typography
 
 @Composable
 actual fun CurrencyConvertorTheme(

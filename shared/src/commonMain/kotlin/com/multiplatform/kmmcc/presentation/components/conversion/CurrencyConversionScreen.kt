@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.presentation.components.conversionscreen
+package com.multiplatform.kmmcc.presentation.components.conversion
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -7,20 +7,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -44,41 +41,30 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.multiplatform.kmmcc.common.utils.containsDigitsAndDecimalOnly
 import com.multiplatform.kmmcc.common.utils.empty
-import com.multiplatform.kmmcc.common.views.Body1Normal
-import com.multiplatform.kmmcc.common.views.Body2Medium
-import com.multiplatform.kmmcc.common.views.Body2Normal
-import com.multiplatform.kmmcc.common.views.ComposeButton
-import com.multiplatform.kmmcc.common.views.ComposeIcon
-import com.multiplatform.kmmcc.common.views.HeadingMedium
-import com.multiplatform.kmmcc.common.views.VerticalDivider
+import com.multiplatform.kmmcc.presentation.views.Body1Normal
+import com.multiplatform.kmmcc.presentation.views.Body2Medium
+import com.multiplatform.kmmcc.presentation.views.Body2Normal
+import com.multiplatform.kmmcc.presentation.views.ComposeButton
+import com.multiplatform.kmmcc.presentation.views.ComposeIcon
+import com.multiplatform.kmmcc.presentation.views.HeadingMedium
+import com.multiplatform.kmmcc.presentation.views.VerticalDivider
 import com.multiplatform.kmmcc.domain.model.ExchangeRate
-import com.multiplatform.kmmcc.presentation.CommonUIEvent
+import com.multiplatform.kmmcc.presentation.CommonScreenEvent
 import kmmcc.shared.generated.resources.Res
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 
-
-class ExchangeRateScreen : Screen {
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    override fun Content() {
-        ConversionScreen()
-    }
-
-}
-
 @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun ConversionScreen() {
-    val viewModel: ExchangeRateViewModel = koinInject<ExchangeRateViewModel>()
+fun CurrencyConversionScreen() {
+    val viewModel: CurrencyConversionViewModel = koinInject<CurrencyConversionViewModel>()
     val currencyRateState = viewModel.exchangeRateViewState.value
 
     val snackBarHostState = remember { SnackbarHostState() }
@@ -87,7 +73,7 @@ fun ConversionScreen() {
     LaunchedEffect(Unit) {
         viewModel.commonEventFlow.collect {
             when (it) {
-                is CommonUIEvent.ShowSnackbar -> {
+                is CommonScreenEvent.ShowSnackbar -> {
                     localCoroutineScope.launch {
                         snackBarHostState.showSnackbar(
                             message = it.message,
@@ -145,7 +131,7 @@ fun ConversionScreen() {
                                         currencyRateState = currencyRateState
                                     ) { selectedCurrency ->
                                         viewModel.onEvent(
-                                            ExchangeRateScreenEvent.SelectFromCurrency(
+                                            CurrencyConversionScreenEvent.SelectFromCurrency(
                                                 selectedCurrency.currency
                                             )
                                         )
@@ -179,7 +165,7 @@ fun ConversionScreen() {
                                     currencyRateState = currencyRateState
                                 ) { selectedCurrency ->
                                     viewModel.onEvent(
-                                        ExchangeRateScreenEvent.MarkToFavoriteCurrency(
+                                        CurrencyConversionScreenEvent.MarkToFavoriteCurrency(
                                             selectedCurrency
                                         )
                                     )
@@ -187,7 +173,7 @@ fun ConversionScreen() {
                                 VerticalDivider(dp = 8.dp)
                                 FlowRow(currencyRateState.favoriteCurrencies) { index, exchangeRate ->
                                     viewModel.onEvent(
-                                        ExchangeRateScreenEvent.RemoveCurrencyFromSelected(
+                                        CurrencyConversionScreenEvent.RemoveCurrencyFromSelected(
                                             index = index,
                                             value = exchangeRate
                                         )
@@ -208,7 +194,7 @@ fun ConversionScreen() {
                             value = currencyRateState.amount,
                             onValueChange = {
                                 if (it.containsDigitsAndDecimalOnly() || it.isEmpty()) {
-                                    viewModel.onEvent(ExchangeRateScreenEvent.EnteredAmount(it))
+                                    viewModel.onEvent(CurrencyConversionScreenEvent.EnteredAmount(it))
                                 }
                             },
                             modifier = Modifier
@@ -236,7 +222,7 @@ fun ConversionScreen() {
                                     !currencyRateState.isForceSyncingExchangeRate &&
                                     currencyRateState.amount.isNotEmpty(),
                             onClick = {
-                                viewModel.onEvent(ExchangeRateScreenEvent.ConvertExchangeRate)
+                                viewModel.onEvent(CurrencyConversionScreenEvent.ConvertCurrencyConversion)
                             }
                         )
                         VerticalDivider(dp = 12.dp)
@@ -273,7 +259,7 @@ fun ConversionScreen() {
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 @Composable
-fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: ExchangeRateViewModel) {
+fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: CurrencyConversionViewModel) {
     val exchangeRate = pair.first
     val convertedAmount = pair.second
     val convertedCurrency by viewModel.exchangeRateViewState
@@ -311,7 +297,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: Exchange
             )
         }
 
-        FlowRow(
+        androidx.compose.foundation.layout.FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -330,7 +316,7 @@ fun FlowRow(
     toSelectedCurrencyList: List<ExchangeRate>?,
     onRemove: (index: Int, item: ExchangeRate) -> Unit
 ) {
-    FlowRow(
+    androidx.compose.foundation.layout.FlowRow(
         modifier = Modifier.padding(1.dp),
         horizontalArrangement = Arrangement.spacedBy(1.dp),
     ) {
@@ -377,7 +363,7 @@ fun CurrencyExposedDropdownMenuBox(
     placeHolderText: String,
     modifier: Modifier = Modifier,
     defaultText: String,
-    currencyRateState: ExchangeRateScreenState,
+    currencyRateState: CurrencyConversionScreenState,
     onItemSelected: (selectedCurrency: ExchangeRate) -> Unit = {},
 ) {
     var expanded by remember { mutableStateOf(false) }

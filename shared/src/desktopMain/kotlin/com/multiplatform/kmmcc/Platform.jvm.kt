@@ -1,7 +1,6 @@
 package com.multiplatform.kmmcc 
 
-import com.multiplatform.kmmcc.*
-import io.ktor.client.engine.java.*
+import io.ktor.client.engine.cio.*
 import org.koin.dsl.module
 
 class JVMPlatform: Platform {
@@ -10,4 +9,4 @@ class JVMPlatform: Platform {
 
 actual fun getPlatform(): Platform = JVMPlatform()
 
-actual fun platformKoinModule() = module { single { Java.create() } }
+actual fun platformKoinModule() = module { single { CIO.create() } }

@@ -1,4 +1,4 @@
-package com.multiplatform.kmmcc.presentation.components.splash
+package com.multiplatform.kmmcc.presentation.components.spash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -23,32 +23,21 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.multiplatform.kmmcc.common.Constants
-import com.multiplatform.kmmcc.common.views.HeadingMedium
-import com.multiplatform.kmmcc.common.views.OvershootInterpolator
-import com.multiplatform.kmmcc.presentation.components.conversionscreen.ExchangeRateScreen
+import com.multiplatform.kmmcc.presentation.views.HeadingMedium
+import com.multiplatform.kmmcc.presentation.views.OvershootInterpolator
+import com.multiplatform.kmmcc.presentation.screen.CurrencyConvertorScreen
 import kmmcc.shared.generated.resources.Res
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.getString
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-
-class SplashScreen : Screen {
-    @Composable
-    override fun Content() {
-        Splash()
-    }
-
-}
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
@@ -96,7 +85,7 @@ fun Splash() {
                 )
             }
             delay(Constants.SPLASH_DURATION)
-            navigator.replace(ExchangeRateScreen())
+            navigator.replace(CurrencyConvertorScreen())
         }
     }
     Box(

@@ -17,11 +17,10 @@ kotlin {
             }
         }
     }
-    jvm("desktop"){
+    jvm("desktop") {
         compilations.all {
             kotlinOptions {
-                jvmTarget ="17"
-                noJdk=false
+                jvmTarget = "1.8"
             }
         }
     }
@@ -103,12 +102,11 @@ kotlin {
 
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(libs.ktor.java)
+            implementation(libs.ktor.cio)
             implementation(libs.kmp.sqldelight.jvm)
-            //
             implementation(libs.kotlinx.coroutines.desktop)
-//            implementation ("ch.qos.logback:logback-classic:1.2.3")
-            implementation ("org.slf4j:slf4j-log4j12:1.7.29")
+//            implementation("ch.qos.logback:logback-classic:1.2.3")
+//            implementation ("org.slf4j:slf4j-log4j12:1.7.29")
 
         }
 
@@ -152,6 +150,12 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.multiplatform.kmmcc"
             packageVersion = "1.0.0"
+            windows {
+                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
+            }
+            macOS{
+                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
+            }
         }
     }
 }
