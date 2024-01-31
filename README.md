@@ -35,6 +35,7 @@ The application follows a clean architecture with the following layers:
 
 **Android Multi Lingual Support:**
 
+
 ![Android Arabic](/images/multi_lingual.jpg)
 
 **iPhone Light:**
@@ -44,6 +45,8 @@ The application follows a clean architecture with the following layers:
 ![Android Dyanmic Colors Dark Theme](/images/dynamic_color_support.webp)
 
 **Desktop Adaptive Layout(Compact and Expanded):**
+
+
 ![Android Dyanmic Colors Dark Theme](/images/adaptive_desktop.webp)
 
 ## Next Target:
