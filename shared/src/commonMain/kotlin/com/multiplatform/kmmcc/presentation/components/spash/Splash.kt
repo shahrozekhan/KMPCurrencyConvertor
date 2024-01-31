@@ -43,7 +43,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Splash(windowSize: MutableState<WindowSize>) {
+fun Splash() {
     val navigator = LocalNavigator.currentOrThrow
 
     val scale = remember {
@@ -87,7 +87,7 @@ fun Splash(windowSize: MutableState<WindowSize>) {
                 )
             }
             delay(Constants.SPLASH_DURATION)
-            navigator.replace(CurrencyConvertorScreen(windowSize))
+            navigator.replace(CurrencyConvertorScreen())
         }
     }
     Box(

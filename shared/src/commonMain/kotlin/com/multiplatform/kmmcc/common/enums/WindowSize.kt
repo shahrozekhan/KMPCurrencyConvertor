@@ -2,7 +2,9 @@ package com.multiplatform.kmmcc.common.enums;
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class WindowSize {
     COMPACT,
     MEDIUM,

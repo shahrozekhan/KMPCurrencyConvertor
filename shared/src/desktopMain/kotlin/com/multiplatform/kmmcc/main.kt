@@ -25,7 +25,7 @@ fun main() = application {
         }
         windowSize.value = WindowSize.basedOnWidth(windowState.size.width)
         App(
-            windowSize = windowSize,
+            applicationWindowSize = windowSize,
             darkTheme = false,
             dynamicColor = false
         )

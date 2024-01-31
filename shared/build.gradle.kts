@@ -20,7 +20,7 @@ kotlin {
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "17"
             }
         }
     }
@@ -63,6 +63,7 @@ kotlin {
             //put your multiplatform dependencies here
             implementation(compose.runtime)
             implementation(compose.foundation)
+//            implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.ui)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -131,8 +132,8 @@ android {
     }
 //    sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
-    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+//    sourceSets["main"].resources.srcDirs("src/commonMain/composeResources")
+//    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
 
 }
 

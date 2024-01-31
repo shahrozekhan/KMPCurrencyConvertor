@@ -11,10 +11,11 @@ import com.multiplatform.kmmcc.presentation.screen.SplashScreen
 
 @Composable
 fun App(
-    windowSize: MutableState<WindowSize> = mutableStateOf(WindowSize.COMPACT),
+    applicationWindowSize: MutableState<WindowSize> = mutableStateOf(WindowSize.COMPACT),
     darkTheme: Boolean,
     dynamicColor: Boolean
 ) {
+    windowSize.value = applicationWindowSize.value
     CurrencyConvertorTheme(
         darkTheme = darkTheme, dynamicColor = dynamicColor
     ) {
@@ -26,3 +27,5 @@ fun App(
 
     }
 }
+
+val windowSize = mutableStateOf(WindowSize.COMPACT)

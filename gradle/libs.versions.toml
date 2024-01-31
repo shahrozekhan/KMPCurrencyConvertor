@@ -1,15 +1,16 @@
 [versions]
 agp = "8.2.2"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 #androidx compose dependencies. Donot remove.
 compose-material3 = "1.1.2"
+compose-material = "1.1.2"
 compose = "1.6.0"
-compose-compiler = "1.5.7"
+compose-compiler = "1.5.8"
 androidx-activityCompose = "1.8.2"
 #Jet brains Multi Platform Compose.
 koin = "3.5.3"
 koin-compose = "1.1.2"
-compose_multiplaform = "1.6.0-beta01"
+compose_multiplaform = "1.6.0-dev1397"
 coreKtx = "1.12.0" # https://developer.android.com/jetpack/androidx/releases/core
 # MVVM
 mvvmCore = "0.16.1"
@@ -42,6 +43,7 @@ compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", versi
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "compose" }
 #compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+#compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
 androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 
 #moko libraries for viewmodels.
