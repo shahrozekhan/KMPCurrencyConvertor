@@ -14,8 +14,8 @@ fun MainViewController() = ComposeUIViewController {
         UIScreen.mainScreen.traitCollection.userInterfaceStyle ==
                 UIUserInterfaceStyle.UIUserInterfaceStyleDark
     App(
-        isDarkTheme,
-        false
+        darkTheme = isDarkTheme,
+        dynamicColor = false
     )
 
 }
