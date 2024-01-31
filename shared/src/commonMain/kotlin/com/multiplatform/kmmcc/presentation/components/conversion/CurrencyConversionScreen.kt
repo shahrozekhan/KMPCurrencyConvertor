@@ -1,7 +1,10 @@
 package com.multiplatform.kmmcc.presentation.components.conversion
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -408,38 +411,45 @@ fun FlowRow(
     windowSize: MutableState<WindowSize>,
     onRemove: (index: Int, item: ExchangeRate) -> Unit
 ) {
-    androidx.compose.foundation.layout.FlowRow(
-        modifier = Modifier.padding(1.dp),
-        horizontalArrangement = Arrangement.spacedBy(1.dp),
-    ) {
-        toSelectedCurrencyList?.forEachIndexed { index, item ->
-            val itemModifier = Modifier
-                .padding(8.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer,RoundedCornerShape(12.dp))
+    AnimatedVisibility(toSelectedCurrencyList?.isNotEmpty() ?: false,enter = fadeIn()) {
+        androidx.compose.foundation.layout.FlowRow(
+            modifier = Modifier.fillMaxWidth().padding(1.dp)
+                .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(8.dp))
+                .padding(vertical = 5.dp),
+            horizontalArrangement = Arrangement.spacedBy(1.dp),
+        ) {
+            toSelectedCurrencyList?.forEachIndexed { index, item ->
+                val itemModifier = Modifier
+                    .padding(8.dp)
+                    .background(
+                        MaterialTheme.colorScheme.primaryContainer,
+                        RoundedCornerShape(8.dp)
+                    )
 
-            Row(
-                modifier = itemModifier,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val currencyName =
-                    if (item.currencyName.isNotEmpty()) "(${item.currencyName})" else String.empty
-                ComposeIcon(
-                    modifier = Modifier
-                        .padding(start = 8.dp)
-                        .size(20.dp)
-                        .clickable {
-                            onRemove.invoke(index, item)
-                        },
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                    icon = Res.drawable.ic_cross
-                )
-                Body1Normal(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .padding(8.dp),
-                    text = "${item.currency} " + currencyName,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                Row(
+                    modifier = itemModifier,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val currencyName =
+                        if (item.currencyName.isNotEmpty()) "(${item.currencyName})" else String.empty
+                    ComposeIcon(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .size(20.dp)
+                            .clickable {
+                                onRemove.invoke(index, item)
+                            },
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                        icon = Res.drawable.ic_cross
+                    )
+                    Body1Normal(
+                        modifier = Modifier
+                            .wrapContentWidth()
+                            .padding(8.dp),
+                        text = "${item.currency} " + currencyName,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
         }
     }

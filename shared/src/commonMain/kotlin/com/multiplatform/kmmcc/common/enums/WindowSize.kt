@@ -12,8 +12,8 @@ enum class WindowSize {
     companion object {
         fun basedOnWidth(windowWidth: Dp): WindowSize {
             return when {
-                windowWidth < 500.dp -> COMPACT
-                windowWidth < 700.dp -> MEDIUM
+                windowWidth < 420.dp -> COMPACT
+                windowWidth < 580.dp -> MEDIUM
                 else -> EXPANDED
             }
         }

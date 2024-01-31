@@ -49,6 +49,9 @@ kotlin {
             export("dev.icerock.moko:mvvm-core:0.16.1")
             export("dev.icerock.moko:mvvm-flow:0.16.1")
             export("dev.icerock.moko:mvvm-state:0.16.1")
+
+//            extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
+//            extraSpecAttributes["exclude_files"] = "['src/commonMain/resources/**', 'src/iosMain/resources/MR/**']"
         }
     }
 
