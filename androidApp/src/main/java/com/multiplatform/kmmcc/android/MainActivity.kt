@@ -23,9 +23,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-@Preview(locale = "en")
-fun SplashScreenPreview(){
-    SplashScreen()
-
-}
+//@Composable
+//@Preview(locale = "en")
+//fun SplashScreenPreview(){
+//    SplashScreen(windowSize)
+//
+//}

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.multiplatform.kmmcc.common.Constants
+import com.multiplatform.kmmcc.common.enums.WindowSize
 import com.multiplatform.kmmcc.presentation.views.HeadingMedium
 import com.multiplatform.kmmcc.presentation.views.OvershootInterpolator
 import com.multiplatform.kmmcc.presentation.screen.CurrencyConvertorScreen
@@ -41,7 +43,7 @@ import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun Splash() {
+fun Splash(windowSize: MutableState<WindowSize>) {
     val navigator = LocalNavigator.currentOrThrow
 
     val scale = remember {
@@ -85,7 +87,7 @@ fun Splash() {
                 )
             }
             delay(Constants.SPLASH_DURATION)
-            navigator.replace(CurrencyConvertorScreen())
+            navigator.replace(CurrencyConvertorScreen(windowSize))
         }
     }
     Box(

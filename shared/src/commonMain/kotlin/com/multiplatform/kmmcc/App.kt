@@ -1,7 +1,8 @@
 package com.multiplatform.kmmcc
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ProvidableCompositionLocal
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.FadeTransition
 import com.multiplatform.kmmcc.common.enums.WindowSize
@@ -10,7 +11,7 @@ import com.multiplatform.kmmcc.presentation.screen.SplashScreen
 
 @Composable
 fun App(
-    windowSize: WindowSize = WindowSize.COMPACT,
+    windowSize: MutableState<WindowSize> = mutableStateOf(WindowSize.COMPACT),
     darkTheme: Boolean,
     dynamicColor: Boolean
 ) {
@@ -18,7 +19,7 @@ fun App(
         darkTheme = darkTheme, dynamicColor = dynamicColor
     ) {
         Navigator(
-            screen = SplashScreen()
+            screen = SplashScreen(windowSize)
         ) { navigator ->
             FadeTransition(navigator)
         }

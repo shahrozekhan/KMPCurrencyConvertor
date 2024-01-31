@@ -1,4 +1,4 @@
-# Currency Conversion Application: Convert currencies accross different platforms! 🏦 💱 🚀
+# Currency Conversion Application: Convert currencies accross different platforms (Android, IOS and Desktop)! 🏦 💱 🚀
 
 Welcome to the Currency Conversion Application repository! This Compose Multiplatform currency conversion application is built upon the principles of a clean MVVM architecture. The application leverages the Restful webservice provided by [exchangeratesapi.io](http://api.exchangeratesapi.io).
 
@@ -43,10 +43,13 @@ The application follows a clean architecture with the following layers:
 **Android Dyanmic Colors(Light && Dark Theme):**
 ![Android Dyanmic Colors Dark Theme](/images/dynamic_color_support.webp)
 
+**Desktop Adaptive Layout(Compact and Expanded):**
+![Android Dyanmic Colors Dark Theme](/images/adaptive_desktop.webp)
+
 ## Next Target:
 
-- The next milestone for the project is to create a Desktop version, extending the application's reach to additional platforms.
 - Add Search in From and To Currencies.
+- Add multiple currencies Source. "From"
 - Mark the currencies Favorite and Add them to database.
 - Add SSO (Single Sign-On) feature using firebase (Save favorite currencies, show trends and graphs)
 - Add Firebase analytics for Crash reports and Analytics.

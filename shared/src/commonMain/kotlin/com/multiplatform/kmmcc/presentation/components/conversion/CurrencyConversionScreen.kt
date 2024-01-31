@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -30,6 +32,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
+import com.multiplatform.kmmcc.common.enums.WindowSize
 import com.multiplatform.kmmcc.common.utils.containsDigitsAndDecimalOnly
 import com.multiplatform.kmmcc.common.utils.empty
 import com.multiplatform.kmmcc.presentation.views.Body1Normal
@@ -63,10 +67,9 @@ import org.koin.compose.koinInject
 @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun CurrencyConversionScreen() {
+fun CurrencyConversionScreen(windowSize: MutableState<WindowSize>) {
     val viewModel: CurrencyConversionViewModel = koinInject<CurrencyConversionViewModel>()
     val currencyRateState = viewModel.exchangeRateViewState.value
-
     val snackBarHostState = remember { SnackbarHostState() }
     val localCoroutineScope = rememberCoroutineScope()
 
@@ -115,71 +118,17 @@ fun CurrencyConversionScreen() {
                 }
                 item {
                     if (!currencyRateState.isCurrenciesLoading && !currencyRateState.listOfCurrency.isNullOrEmpty()) {
-                        Column(
-                            modifier = Modifier,
-                            verticalArrangement = Arrangement.spacedBy(12.dp)
-                        ) {
-                            Column {
-                                VerticalDivider(dp = 8.dp)
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    val currencyName =
-                                        if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
-                                    CurrencyExposedDropdownMenuBox(
-                                        placeHolderText = stringResource(Res.string.tv_from),
-                                        modifier = Modifier/*.weight(0.85f)*/,
-                                        defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
-                                        currencyRateState = currencyRateState
-                                    ) { selectedCurrency ->
-                                        viewModel.onEvent(
-                                            CurrencyConversionScreenEvent.SelectFromCurrency(
-                                                selectedCurrency.currency
-                                            )
-                                        )
-                                    }
-//                                    ComposeIcon(
-//                                        icon = "ic_sync.xml",
-//                                        modifier = Modifier
-//                                            .weight(.15f)
-//                                            .size(30.dp)
-//                                            .clickable(enabled = !currencyRateState.isForceSyncingExchangeRate) {
-//                                                viewModel.onEvent(ExchangeRateScreenEvent.ForceSyncExchangeRate)
-//                                            }
-//                                    )
-                                }
+                        when (windowSize.value) {
+                            WindowSize.COMPACT -> {
+                                CompactDropDownView(currencyRateState, viewModel, windowSize)
                             }
 
-                            Column {
-                                VerticalDivider(dp = 8.dp)
-                                val textState = stringResource(Res.string.tv_select_currency)
-//                                by remember {
-//                                    mutableStateOf(
-//                                        if (currencyRateState.favoriteCurrencies.isNullOrEmpty()) {
-//                                        } else {
-//                                            "Select More Currencies"
-//                                        }
-//                                    )
-//                                }
-                                CurrencyExposedDropdownMenuBox(
-                                    placeHolderText = stringResource(Res.string.tv_to),
-                                    defaultText = textState,
-                                    currencyRateState = currencyRateState
-                                ) { selectedCurrency ->
-                                    viewModel.onEvent(
-                                        CurrencyConversionScreenEvent.MarkToFavoriteCurrency(
-                                            selectedCurrency
-                                        )
-                                    )
-                                }
-                                VerticalDivider(dp = 8.dp)
-                                FlowRow(currencyRateState.favoriteCurrencies) { index, exchangeRate ->
-                                    viewModel.onEvent(
-                                        CurrencyConversionScreenEvent.RemoveCurrencyFromSelected(
-                                            index = index,
-                                            value = exchangeRate
-                                        )
-                                    )
-                                }
-                                VerticalDivider(dp = 8.dp)
+                            WindowSize.MEDIUM -> {
+                                CompactDropDownView(currencyRateState, viewModel, windowSize)
+                            }
+
+                            else -> {
+                                ExpandedDropDownView(currencyRateState, viewModel, windowSize)
                             }
                         }
                     }
@@ -257,9 +206,151 @@ fun CurrencyConversionScreen() {
     }
 }
 
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+fun ExpandedDropDownView(
+    currencyRateState: CurrencyConversionScreenState,
+    viewModel: CurrencyConversionViewModel,
+    windowSize: MutableState<WindowSize>
+) {
+    Column(
+        modifier = Modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Column {
+            VerticalDivider(dp = 8.dp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                val currencyName =
+                    if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
+                CurrencyExposedDropdownMenuBox(
+                    placeHolderText = stringResource(Res.string.tv_from),
+                    modifier = Modifier.weight(.5f),
+                    defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
+                    currencyRateState = currencyRateState
+                ) { selectedCurrency ->
+                    viewModel.onEvent(
+                        CurrencyConversionScreenEvent.SelectFromCurrency(
+                            selectedCurrency.currency
+                        )
+                    )
+                }
+
+                val textState = stringResource(Res.string.tv_select_currency)
+                CurrencyExposedDropdownMenuBox(
+                    placeHolderText = stringResource(Res.string.tv_to),
+                    defaultText = textState,
+                    modifier = Modifier.weight(.5f),
+                    currencyRateState = currencyRateState
+                ) { selectedCurrency ->
+                    viewModel.onEvent(
+                        CurrencyConversionScreenEvent.MarkToFavoriteCurrency(
+                            selectedCurrency
+                        )
+                    )
+                }
+            }
+        }
+
+        Column {
+            VerticalDivider(dp = 8.dp)
+            FlowRow(currencyRateState.favoriteCurrencies, windowSize) { index, exchangeRate ->
+                viewModel.onEvent(
+                    CurrencyConversionScreenEvent.RemoveCurrencyFromSelected(
+                        index = index,
+                        value = exchangeRate
+                    )
+                )
+            }
+            VerticalDivider(dp = 8.dp)
+        }
+    }
+}
+
+@OptIn(ExperimentalResourceApi::class)
+@Composable
+private fun CompactDropDownView(
+    currencyRateState: CurrencyConversionScreenState,
+    viewModel: CurrencyConversionViewModel,
+    windowSize: MutableState<WindowSize>
+) {
+    Column(
+        modifier = Modifier,
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        Column {
+            VerticalDivider(dp = 8.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                val currencyName =
+                    if (currencyRateState.fromCurrency.currencyName.isNotEmpty()) "(${currencyRateState.fromCurrency.currencyName})" else String.empty
+                CurrencyExposedDropdownMenuBox(
+                    placeHolderText = stringResource(Res.string.tv_from),
+                    modifier = Modifier/*.weight(0.85f)*/,
+                    defaultText = "${currencyRateState.fromCurrency.currency} " + currencyName,
+                    currencyRateState = currencyRateState
+                ) { selectedCurrency ->
+                    viewModel.onEvent(
+                        CurrencyConversionScreenEvent.SelectFromCurrency(
+                            selectedCurrency.currency
+                        )
+                    )
+                }
+//                                    ComposeIcon(
+//                                        icon = "ic_sync.xml",
+//                                        modifier = Modifier
+//                                            .weight(.15f)
+//                                            .size(30.dp)
+//                                            .clickable(enabled = !currencyRateState.isForceSyncingExchangeRate) {
+//                                                viewModel.onEvent(ExchangeRateScreenEvent.ForceSyncExchangeRate)
+//                                            }
+//                                    )
+            }
+        }
+
+        Column {
+            VerticalDivider(dp = 8.dp)
+            val textState = stringResource(Res.string.tv_select_currency)
+//                                by remember {
+//                                    mutableStateOf(
+//                                        if (currencyRateState.favoriteCurrencies.isNullOrEmpty()) {
+//                                        } else {
+//                                            "Select More Currencies"
+//                                        }
+//                                    )
+//                                }
+            CurrencyExposedDropdownMenuBox(
+                placeHolderText = stringResource(Res.string.tv_to),
+                defaultText = textState,
+                currencyRateState = currencyRateState
+            ) { selectedCurrency ->
+                viewModel.onEvent(
+                    CurrencyConversionScreenEvent.MarkToFavoriteCurrency(
+                        selectedCurrency
+                    )
+                )
+            }
+            VerticalDivider(dp = 8.dp)
+            FlowRow(currencyRateState.favoriteCurrencies, windowSize) { index, exchangeRate ->
+                viewModel.onEvent(
+                    CurrencyConversionScreenEvent.RemoveCurrencyFromSelected(
+                        index = index,
+                        value = exchangeRate
+                    )
+                )
+            }
+            VerticalDivider(dp = 8.dp)
+        }
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class, ExperimentalResourceApi::class)
 @Composable
-fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: CurrencyConversionViewModel) {
+fun CurrenciesListItem(
+    pair: Pair<ExchangeRate, BigDecimal>,
+    viewModel: CurrencyConversionViewModel
+) {
     val exchangeRate = pair.first
     val convertedAmount = pair.second
     val convertedCurrency by viewModel.exchangeRateViewState
@@ -314,6 +405,7 @@ fun CurrenciesListItem(pair: Pair<ExchangeRate, BigDecimal>, viewModel: Currency
 @Composable
 fun FlowRow(
     toSelectedCurrencyList: List<ExchangeRate>?,
+    windowSize: MutableState<WindowSize>,
     onRemove: (index: Int, item: ExchangeRate) -> Unit
 ) {
     androidx.compose.foundation.layout.FlowRow(
@@ -322,10 +414,8 @@ fun FlowRow(
     ) {
         toSelectedCurrencyList?.forEachIndexed { index, item ->
             val itemModifier = Modifier
-                .wrapContentWidth()
                 .padding(8.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(MaterialTheme.colorScheme.primaryContainer)
+                .background(MaterialTheme.colorScheme.primaryContainer,RoundedCornerShape(12.dp))
 
             Row(
                 modifier = itemModifier,
@@ -333,23 +423,22 @@ fun FlowRow(
             ) {
                 val currencyName =
                     if (item.currencyName.isNotEmpty()) "(${item.currencyName})" else String.empty
-                Body1Normal(
-                    modifier = Modifier
-                        .weight(9f)
-                        .padding(8.dp),
-                    text = "${item.currency} " + currencyName,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
                 ComposeIcon(
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(end = 8.dp)
+                        .padding(start = 8.dp)
                         .size(20.dp)
                         .clickable {
                             onRemove.invoke(index, item)
                         },
                     tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     icon = Res.drawable.ic_cross
+                )
+                Body1Normal(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .padding(8.dp),
+                    text = "${item.currency} " + currencyName,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
         }
