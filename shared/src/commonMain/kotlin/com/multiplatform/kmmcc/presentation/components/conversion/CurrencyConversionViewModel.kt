@@ -30,7 +30,7 @@ class CurrencyConversionViewModel(
 ) : ViewModel() {
 
     init {
-//        loadFavoriteExchangeRate()
+        loadTOExchangeRate()
         loadExchangeRate()
     }
 
@@ -88,7 +88,7 @@ class CurrencyConversionViewModel(
                                 listOfCurrency = it.data,
                                 errorMessage = ""
                             )
-                            loadFavoriteExchangeRate(onCompleteLoading = {
+                            loadTOExchangeRate(onCompleteLoading = {
                                 if (!exchangeRateViewState.value.favoriteCurrencies.isNullOrEmpty()) onEvent(
                                     CurrencyConversionScreenEvent.ConvertCurrencyConversion
                                 )
@@ -174,7 +174,7 @@ class CurrencyConversionViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun loadFavoriteExchangeRate(onCompleteLoading: () -> Unit = {}) {
+    private fun loadTOExchangeRate(onCompleteLoading: () -> Unit = {}) {
         getFavoriteExchangeRateUseCase().onEach {
             when (it) {
                 is Resource.Success -> {
