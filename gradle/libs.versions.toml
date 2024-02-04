@@ -10,7 +10,7 @@ androidx-activityCompose = "1.8.2"
 #Jet brains Multi Platform Compose.
 koin = "3.5.3"
 koin-compose = "1.1.2"
-compose_multiplaform = "1.6.0-dev1397"
+compose_multiplaform = "1.6.0-dev1405"
 coreKtx = "1.12.0" # https://developer.android.com/jetpack/androidx/releases/core
 # MVVM
 mvvmCore = "0.16.1"

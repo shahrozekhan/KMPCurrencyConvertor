@@ -187,3 +187,4 @@ iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/shahroze.xcuserdatad/User
 /.idea/codeStyles/codeStyleConfig.xml
 /.idea/codeStyles/Project.xml
 /shared/src/desktopMain/app.db
+/shared/src/desktopMain/desktop_app_db.db

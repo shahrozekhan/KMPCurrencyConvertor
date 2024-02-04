@@ -9,14 +9,14 @@ import com.multiplatform.kmmcc.data.sources.RemoteErrorParser
 import com.multiplatform.kmmcc.data.sources.local.preferences.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.filereader.LocalJsonFileDataSource
 import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
-import com.multiplatform.kmmcc.database.ExchangeRateDB
+import com.multiplatform.kmmcc.database.ApplicationDB
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import com.multiplatform.kmmcc.domain.repository.FavoriteExchangeRateRepository
 import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertExchangeRateUseCase
+import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertListOfExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.ForceSyncExchangeRatesUseCase
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.GetExchangeRateUseCase
-import com.multiplatform.kmmcc.domain.usecases.exchangerate.SaveFromExchangeRateUseCase
-import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
+import com.multiplatform.kmmcc.domain.usecases.favorite.GetToFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
 import com.multiplatform.kmmcc.platformKoinModule
 import com.multiplatform.kmmcc.presentation.components.conversion.CurrencyConversionViewModel
@@ -70,16 +70,16 @@ internal fun provideRepositories() = module {
 internal fun provideUseCases() = module {
 
     factory { ConvertExchangeRateUseCase(get()) }
+    factory { ConvertListOfExchangeRateUseCase(get()) }
     factory { ForceSyncExchangeRatesUseCase(get(), get()) }
     factory { GetExchangeRateUseCase(get(), get(), get()) }
-    factory { GetFavoriteExchangeRateUseCase(get()) }
+    factory { GetToFavoriteExchangeRateUseCase(get()) }
     factory { MarkExchangeRateToFavoriteUseCase(get(), get()) }
-    factory { SaveFromExchangeRateUseCase(get()) }
 
 }
 
 fun provideViewModel() = module {
-    viewModelDefinition { CurrencyConversionViewModel(get(), get(), get(), get(), get(), get()) }
+    viewModelDefinition { CurrencyConversionViewModel(get(), get(), get(), get()) }
 }
 
 fun provideGatway() = module {
@@ -87,7 +87,7 @@ fun provideGatway() = module {
 }
 
 fun provideDatabase(sqlDriver: SqlDriver) = module {
-    single { ExchangeRateDB(sqlDriver) }
+    single { ApplicationDB(sqlDriver) }
 }
 
 fun commonMainModules(context: KMMContext) = module {

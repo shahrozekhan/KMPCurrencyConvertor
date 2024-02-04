@@ -63,7 +63,7 @@ kotlin {
             //put your multiplatform dependencies here
             implementation(compose.runtime)
             implementation(compose.foundation)
-//            implementation(compose.material)
+            implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.ui)
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
@@ -136,12 +136,16 @@ android {
 //    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/composeResources")
 
 }
+//Donot change the following...
+val applicationDB = "ApplicationDB"
 
 sqldelight {
     databases {
-        create("ExchangeRateDB") {
+        create(applicationDB) {
             packageName = "com.multiplatform.kmmcc.database"
             srcDirs.setFrom("src/commonMain/sqldelight")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
+            version = 1
         }
     }
 }
@@ -157,7 +161,7 @@ compose.desktop {
             windows {
                 iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
             }
-            macOS{
+            macOS {
                 iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
             }
         }

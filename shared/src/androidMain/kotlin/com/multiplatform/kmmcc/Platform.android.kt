@@ -10,3 +10,4 @@ class AndroidPlatform : Platform {
 actual fun getPlatform(): Platform = AndroidPlatform()
 
 actual fun platformKoinModule() = module { single { Android.create() } }
+actual fun databaseName(): String = "android_app_db.db"

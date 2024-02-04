@@ -1,0 +1,27 @@
+CREATE TABLE FromEntity(
+    currency TEXT NOT NULL PRIMARY KEY,
+    currencyName TEXT,
+    rate REAL NOT NULL
+);
+
+-- <<FromEntity>>
+-- get FROM, exchange rate selected by user.
+getFromExchangeRates:
+SELECT *
+FROM FromEntity;
+
+-- <<FromEntity>>
+-- delete FROM, favorites.
+delete:
+DELETE
+FROM FromEntity;
+
+-- insert or update to Exhanges rates
+updateAndInsertFROMExchangeRate:
+INSERT OR REPLACE
+INTO FromEntity(
+    currency,
+    currencyName,
+    rate
+) VALUES ?;
+

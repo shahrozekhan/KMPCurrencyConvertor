@@ -10,10 +10,9 @@ data class CurrencyConversionScreenState(
     val isConverting: Boolean = false,
     val isForceSyncingExchangeRate: Boolean = false,
     val listOfCurrency: List<ExchangeRate>? = listOf(),
-    val favoriteCurrencies: List<ExchangeRate>? = listOf(),
-    val listOfConvertedAgainstBase: List<Pair<ExchangeRate, BigDecimal>> = listOf(),
-    val fromCurrency: ExchangeRate = ExchangeRate.appDefaultExchangeRate,
+    val convertedExchangeRate: List<Pair<ExchangeRate, List<Pair<ExchangeRate, BigDecimal>>>> = listOf(),
+    val fromFavorites: List<ExchangeRate> = listOf(),
+    val toFavorites: List<ExchangeRate> = listOf(),
     val errorMessage: String = "",
-    val amount: String = "",
-    val convertedCurrency: ExchangeRate = ExchangeRate.appDefaultExchangeRate
+    val amount: String = ""
 )

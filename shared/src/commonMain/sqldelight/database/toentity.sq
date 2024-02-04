@@ -1,0 +1,26 @@
+CREATE TABLE ToEntity(
+    currency TEXT NOT NULL PRIMARY KEY,
+    currencyName TEXT,
+    rate REAL NOT NULL
+);
+
+-- <<ToEntity>>
+--  get 'TO', exchange rate selected by user.
+getToExchangeRates:
+SELECT *
+FROM ToEntity;
+
+-- <<FromEntity>>
+-- delete FROM, favorites.
+delete:
+DELETE
+FROM ToEntity;
+
+-- insert or update to Exhanges rates
+updateAndInsertTOExchangeRate:
+INSERT OR REPLACE
+INTO ToEntity(
+    currency,
+    currencyName,
+    rate
+) VALUES ?;

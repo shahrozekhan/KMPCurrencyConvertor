@@ -8,10 +8,10 @@ import com.multiplatform.kmmcc.presentation.components.spash.Splash
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SplashScreen(private val windowSize: MutableState<WindowSize>) : Screen {
+class SplashScreen() : Screen {
     @Composable
     override fun Content() {
-        Splash(/*windowSize*/)
+        Splash()
     }
 
 }

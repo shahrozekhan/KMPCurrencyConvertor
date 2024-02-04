@@ -7,17 +7,19 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class GetFavoriteExchangeRateUseCase(
+class GetToFavoriteExchangeRateUseCase(
     private val favoriteExchangeRateRepository: FavoriteExchangeRateRepository
 ) {
     operator fun invoke() = flow {
         emit(Resource.Loading())
-        val listOfFavoriteExchangeRates =
-            favoriteExchangeRateRepository.getFavoriteExchangeRates()
-        if (listOfFavoriteExchangeRates.isEmpty()) {
+        val listOfToFavoriteExchangeRates =
+            favoriteExchangeRateRepository.getToExchangeRates()
+        val listOfFromFavoriteExchangeRates =
+            favoriteExchangeRateRepository.getFromExchangeRates()
+        if (listOfToFavoriteExchangeRates.isEmpty() && listOfFromFavoriteExchangeRates.isEmpty()) {
             emit(Resource.Error("No favorites found! Please select currencies to mark favorite."))
         } else {
-            emit(Resource.Success(listOfFavoriteExchangeRates))
+            emit(Resource.Success(listOfToFavoriteExchangeRates to listOfFromFavoriteExchangeRates))
         }
     }.flowOn(Dispatchers.IO)
 }

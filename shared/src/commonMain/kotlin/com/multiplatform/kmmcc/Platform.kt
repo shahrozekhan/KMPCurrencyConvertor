@@ -8,4 +8,6 @@ interface Platform {
 
 expect fun getPlatform(): Platform
 
+expect fun databaseName(): String
+
 expect fun platformKoinModule(): Module

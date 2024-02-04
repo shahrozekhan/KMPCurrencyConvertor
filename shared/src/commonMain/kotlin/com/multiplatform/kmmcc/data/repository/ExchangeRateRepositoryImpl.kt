@@ -1,5 +1,7 @@
 package com.multiplatform.kmmcc.data.repository
 
+import com.multiplatform.kmmcc.common.Constants
+import com.multiplatform.kmmcc.common.Constants.ExchangeRateConstants.DEFAULT_CURRENCY
 import com.multiplatform.kmmcc.common.base.RemoteResource
 import com.multiplatform.kmmcc.common.base.Resource
 import com.multiplatform.kmmcc.common.utils.buildExchangeRateDtoListSortedByCurrency
@@ -8,7 +10,7 @@ import com.multiplatform.kmmcc.data.dto.ExchangeRateResponseDto
 import com.multiplatform.kmmcc.data.sources.local.preferences.AppPreferences
 import com.multiplatform.kmmcc.data.sources.local.filereader.LocalJsonFileDataSource
 import com.multiplatform.kmmcc.data.sources.remote.gateway.ExchangeRateDataSource
-import com.multiplatform.kmmcc.database.ExchangeRateDB
+import com.multiplatform.kmmcc.database.ApplicationDB
 import com.multiplatform.kmmcc.domain.model.toExchangeRateEntity
 import com.multiplatform.kmmcc.domain.repository.ExchangeRateRepository
 import database.ExchangeRateEntity
@@ -18,7 +20,7 @@ import kotlinx.coroutines.withContext
 //Error Handling in Repository.
 class ExchangeRateRepositoryImpl(
     private val exchangeRateDataSource: ExchangeRateDataSource,
-    private val exchangeRateDb: ExchangeRateDB,
+    private val exchangeRateDb: ApplicationDB,
     private val defaultDispatcher: CoroutineDispatcher,
     private val fileDataSource: LocalJsonFileDataSource,
     private val appPreferences: AppPreferences
@@ -85,23 +87,23 @@ class ExchangeRateRepositoryImpl(
 
     override suspend fun insertExchangeRatesToDatabase(listOfExchangeRate: List<ExchangeRateDto>) =
         withContext(defaultDispatcher) {
-            exchangeRateDb.exchangeratedbQueries.getFavoriteExchangeRates().executeAsList()
-                .forEach { favorite ->
-                    listOfExchangeRate.find { favorite.currency == it.currency }?.selected =
-                        favorite.selected
-                }
             listOfExchangeRate.forEach {
-                exchangeRateDb.exchangeratedbQueries.updateAndInsertExchangeRate(it.toExchangeRateEntity())
+                exchangeRateDb.exchangerateQueries.updateAndInsertExchangeRate(it.toExchangeRateEntity())
             }
         }
 
     override suspend fun getExchangeRatesFromDatabase(): List<ExchangeRateEntity> =
         withContext(defaultDispatcher) {
-            exchangeRateDb.exchangeratedbQueries.getAllExchangeRates().executeAsList()
+            exchangeRateDb.exchangerateQueries.getAllExchangeRates().executeAsList()
         }
 
-    override fun SaveFromExchangeRate(exchangeRateStr: String) {
-        appPreferences.baseCurrency = exchangeRateStr
+    override fun saveExchangeRatePreferences(key: String, exchangeRateStr: String) {
+        appPreferences.instance.put(key, exchangeRateStr)
     }
+
+    override fun getExchangeRatePreferences(key: String) {
+        appPreferences.instance.getString(key, DEFAULT_CURRENCY)
+    }
+
 
 }

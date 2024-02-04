@@ -14,10 +14,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.core.view.WindowCompat
 import androidx.window.layout.WindowMetricsCalculator
 import com.multiplatform.kmmcc.App
+import com.multiplatform.kmmcc.common.enums.WindowInfo
+import com.multiplatform.kmmcc.common.enums.CompactWindow
 import com.multiplatform.kmmcc.common.enums.WindowSize
 
 class MainActivity : ComponentActivity() {
-    val windowSizeState = mutableStateOf(WindowSize.COMPACT)
+    val windowSizeState = mutableStateOf<WindowInfo>(CompactWindow(1f, 2f, WindowSize.COMPACT))
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, true)
@@ -33,7 +35,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-private fun Activity.rememberWindowSize(): WindowSize {
+private fun Activity.rememberWindowSize(): WindowInfo {
     val configuration = LocalConfiguration.current
     val windowMetrics = remember(configuration) {
         WindowMetricsCalculator.getOrCreate()
@@ -42,5 +44,5 @@ private fun Activity.rememberWindowSize(): WindowSize {
     val windowDpSize = with(LocalDensity.current) {
         windowMetrics.bounds.toComposeRect().size.toDpSize()
     }
-    return WindowSize.basedOnWidth(windowDpSize.width)
+    return WindowSize.basedOnCurrenDimension(windowDpSize.width, windowDpSize.height)
 }

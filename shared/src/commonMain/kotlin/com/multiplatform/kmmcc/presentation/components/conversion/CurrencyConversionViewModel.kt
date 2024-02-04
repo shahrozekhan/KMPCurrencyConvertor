@@ -4,16 +4,13 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.multiplatform.kmmcc.common.base.Resource
-import com.multiplatform.kmmcc.domain.model.ExchangeRate
-import com.multiplatform.kmmcc.domain.model.appDefaultExchangeRate
-import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertExchangeRateUseCase
-import com.multiplatform.kmmcc.domain.usecases.exchangerate.ForceSyncExchangeRatesUseCase
+import com.multiplatform.kmmcc.domain.usecases.conversion.ConvertListOfExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.exchangerate.GetExchangeRateUseCase
-import com.multiplatform.kmmcc.domain.usecases.exchangerate.SaveFromExchangeRateUseCase
-import com.multiplatform.kmmcc.domain.usecases.favorite.GetFavoriteExchangeRateUseCase
+import com.multiplatform.kmmcc.domain.usecases.favorite.GetToFavoriteExchangeRateUseCase
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
 import com.multiplatform.kmmcc.presentation.CommonScreenEvent
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
@@ -22,15 +19,13 @@ import kotlinx.coroutines.launch
 
 class CurrencyConversionViewModel(
     private val markExchangeRateToFavoriteUseCase: MarkExchangeRateToFavoriteUseCase,
-    private val getFavoriteExchangeRateUseCase: GetFavoriteExchangeRateUseCase,
-    private val convertExchangeRateUseCase: ConvertExchangeRateUseCase,
-    private val getExchangeRateUseCase: GetExchangeRateUseCase,
-    private val forceSyncExchangeRatesUseCase: ForceSyncExchangeRatesUseCase,
-    private val saveSelectedExchangeRateUseCase: SaveFromExchangeRateUseCase
+    private val getToFavoriteExchangeRateUseCase: GetToFavoriteExchangeRateUseCase,
+    private val convertExchangeRateUseCase: ConvertListOfExchangeRateUseCase,
+    private val getExchangeRateUseCase: GetExchangeRateUseCase
 ) : ViewModel() {
 
     init {
-        loadTOExchangeRate()
+        loadFavoriteExchangeRate()
         loadExchangeRate()
     }
 
@@ -49,87 +44,102 @@ class CurrencyConversionViewModel(
             }
 
             is CurrencyConversionScreenEvent.SelectFromCurrency -> {
-                val selectedCurrency =
-                    exchangeRateViewState.value.listOfCurrency?.find { event.value == it.currency }
-                        ?: ExchangeRate.appDefaultExchangeRate
-                _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                    fromCurrency = selectedCurrency
-                )
+                exchangeRateViewState.value.apply {
+                    if (!fromFavorites.contains(event.value)) {
+                        val newFavList = fromFavorites.toMutableList()
+                        newFavList.add(event.value)
+                        _mutableExchangeRateViewState.value = copy(
+                            fromFavorites = newFavList
+                        )
+                    }
+                }
             }
 
-            is CurrencyConversionScreenEvent.MarkToFavoriteCurrency -> {
+            is CurrencyConversionScreenEvent.SelectToCurrency -> {
+                exchangeRateViewState.value.apply {
+                    if (!toFavorites.contains(event.value)) {
+                        val newFavList = toFavorites.toMutableList()
+                        newFavList.add(event.value)
+                        _mutableExchangeRateViewState.value = copy(
+                            toFavorites = newFavList
+                        )
+                    }
+                }
+            }
+
+            is CurrencyConversionScreenEvent.RemoveCurrencyFromExchangeRates -> {
                 viewModelScope.launch {
-                    val newFavoritesList = markExchangeRateToFavoriteUseCase(
-                        event.value, exchangeRateViewState.value.favoriteCurrencies
-                    )
+                    val newFavoritesList = exchangeRateViewState.value.fromFavorites.toMutableList()
+                    newFavoritesList.removeAt(event.index)
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        favoriteCurrencies = newFavoritesList
+                        fromFavorites = newFavoritesList
                     )
                 }
             }
 
-            is CurrencyConversionScreenEvent.RemoveCurrencyFromSelected -> {
+            is CurrencyConversionScreenEvent.RemoveCurrencyToExchangeRates -> {
                 viewModelScope.launch {
-                    val newFavoritesList = markExchangeRateToFavoriteUseCase(
-                        event.value, exchangeRateViewState.value.favoriteCurrencies, false
-                    )
+                    val newFavoritesList = exchangeRateViewState.value.toFavorites.toMutableList()
+                    newFavoritesList.removeAt(event.index)
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        favoriteCurrencies = newFavoritesList
+                        toFavorites = newFavoritesList
                     )
                 }
             }
 
             is CurrencyConversionScreenEvent.ForceSyncCurrencyConversion -> {
-                forceSyncExchangeRatesUseCase().onEach {
-                    when (it) {
-                        is Resource.Success -> {
-                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                                isForceSyncingExchangeRate = false,
-                                listOfCurrency = it.data,
-                                errorMessage = ""
-                            )
-                            loadTOExchangeRate(onCompleteLoading = {
-                                if (!exchangeRateViewState.value.favoriteCurrencies.isNullOrEmpty()) onEvent(
-                                    CurrencyConversionScreenEvent.ConvertCurrencyConversion
-                                )
-                            })
-                        }
-
-                        is Resource.Error -> {
-                            showSnackBarError(
-                                exchangeRateViewState.value.errorMessage,
-                                SnackbarDuration.Indefinite
-                            )
-                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                                isForceSyncingExchangeRate = false
-                            )
-                        }
-
-                        is Resource.Loading -> {
-                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                                isForceSyncingExchangeRate = true
-                            )
-                        }
-                    }
-                }.launchIn(viewModelScope)
+//                forceSyncExchangeRatesUseCase().onEach {
+//                    when (it) {
+//                        is Resource.Success -> {
+//                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+//                                isForceSyncingExchangeRate = false,
+//                                listOfCurrency = it.data,
+//                                errorMessage = ""
+//                            )
+//                            loadTOExchangeRate(onCompleteLoading = {
+//                                if (!exchangeRateViewState.value.favoriteCurrencies.isNullOrEmpty()) onEvent(
+//                                    CurrencyConversionScreenEvent.ConvertCurrencyConversion
+//                                )
+//                            })
+//                        }
+//
+//                        is Resource.Error -> {
+//                            showSnackBarError(
+//                                exchangeRateViewState.value.errorMessage,
+//                                SnackbarDuration.Indefinite
+//                            )
+//                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+//                                isForceSyncingExchangeRate = false
+//                            )
+//                        }
+//
+//                        is Resource.Loading -> {
+//                            _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+//                                isForceSyncingExchangeRate = true
+//                            )
+//                        }
+//                    }
+//                }.launchIn(viewModelScope)
             }
 
             is CurrencyConversionScreenEvent.ConvertCurrencyConversion -> {
                 viewModelScope.launch {
+                    markExchangeRateToFavoriteUseCase.invoke(
+                        exchangeRateViewState.value.toFavorites,
+                        exchangeRateViewState.value.fromFavorites
+                    )
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
                         isConverting = true
                     )
-                    saveSelectedExchangeRateUseCase(exchangeRateViewState.value.fromCurrency.currency)
                     exchangeRateViewState.value.apply {
                         val listOfConvertedExchangeRate = convertExchangeRateUseCase(
                             amount = amount,
-                            fromExchangeRate = fromCurrency,
-                            toExchangeRateList = favoriteCurrencies
+                            fromExchangeRates = fromFavorites,
+                            toExchangeRates = toFavorites
                         )
-                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                            listOfConvertedAgainstBase = listOfConvertedExchangeRate,
-                            isConverting = false,
-                            convertedCurrency = exchangeRateViewState.value.fromCurrency
+                        _mutableExchangeRateViewState.value = copy(
+                            convertedExchangeRate = listOfConvertedExchangeRate,
+                            isConverting = false
                         )
 
                     }
@@ -174,12 +184,14 @@ class CurrencyConversionViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun loadTOExchangeRate(onCompleteLoading: () -> Unit = {}) {
-        getFavoriteExchangeRateUseCase().onEach {
+    private fun loadFavoriteExchangeRate(onCompleteLoading: () -> Unit = {}) {
+        getToFavoriteExchangeRateUseCase().onEach {
             when (it) {
                 is Resource.Success -> {
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isFavoriteLoading = false, favoriteCurrencies = it.data
+                        isFavoriteLoading = false,
+                        toFavorites = it.data!!.first,
+                        fromFavorites = it.data.second,
                     )
                     onCompleteLoading.invoke()
                 }

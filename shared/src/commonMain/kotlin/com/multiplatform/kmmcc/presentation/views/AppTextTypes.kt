@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 
 @Composable
@@ -33,16 +34,18 @@ fun Body1Medium(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground,
-    isSingleLine: Boolean = false
+    isSingleLine: Boolean = false,
+    textAlign: TextAlign = TextAlign.Unspecified
 ) {
     return Text(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyMedium,
         fontWeight = FontWeight.Bold,
-        color =  color,
+        color = color,
         maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        textAlign = textAlign
     )
 }
 
@@ -60,7 +63,7 @@ fun Body1Normal(
         textAlign = textAlign,
         style = MaterialTheme.typography.bodyMedium,
         fontWeight = FontWeight.Normal,
-        color =  color,
+        color = color,
         maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
         overflow = TextOverflow.Ellipsis
     )
@@ -71,16 +74,40 @@ fun Body2Medium(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = MaterialTheme.colorScheme.onBackground,
-    isSingleLine: Boolean = false
+    isSingleLine: Boolean = false,
+    textAlign: TextAlign = TextAlign.Unspecified
 ) {
     return Text(
         modifier = modifier,
         text = text,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Bold,
-        color =  color,
+        color = color,
         maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
-        overflow = TextOverflow.Ellipsis
+        overflow = TextOverflow.Ellipsis,
+        textAlign = textAlign
+    )
+}
+
+@Composable
+fun TitleLargeMedium(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onBackground,
+    isSingleLine: Boolean = false,
+    textAlign: TextAlign = TextAlign.Unspecified,
+    textDecoration: TextDecoration=TextDecoration.None
+) {
+    return Text(
+        modifier = modifier,
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        color = color,
+        maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
+        overflow = TextOverflow.Ellipsis,
+        textAlign = textAlign,
+        textDecoration = textDecoration
     )
 }
 
@@ -98,7 +125,7 @@ fun Body2Normal(
         textAlign = textAlign,
         style = MaterialTheme.typography.bodyLarge,
         fontWeight = FontWeight.Normal,
-        color =  color,
+        color = color,
         maxLines = if (isSingleLine) 1 else Int.MAX_VALUE,
         overflow = TextOverflow.Ellipsis
     )
