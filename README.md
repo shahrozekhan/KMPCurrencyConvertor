@@ -51,9 +51,8 @@ The application follows a clean architecture with the following layers:
 
 ## Next Target:
 
+- Add Web Application support.
 - Add Search in From and To Currencies.
-- Add multiple currencies Source. "From"
-- Mark the currencies Favorite and Add them to database.
 - Add SSO (Single Sign-On) feature using firebase (Save favorite currencies, show trends and graphs)
 - Add Firebase analytics for Crash reports and Analytics.
 - Documentation -> [Kdoc](https://kotlinlang.org/docs/kotlin-doc.html) -> dokka documentation.
