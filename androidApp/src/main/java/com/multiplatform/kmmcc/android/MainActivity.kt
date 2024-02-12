@@ -17,6 +17,10 @@ import com.multiplatform.kmmcc.App
 import com.multiplatform.kmmcc.common.enums.WindowInfo
 import com.multiplatform.kmmcc.common.enums.CompactWindow
 import com.multiplatform.kmmcc.common.enums.WindowSize
+import com.multiplatform.kmmcc.data.sources.local.database.ExchangeRateDriverFactory
+import com.multiplatform.kmmcc.di.injectKoin
+import org.koin.compose.getKoin
+import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
     val windowSizeState = mutableStateOf<WindowInfo>(CompactWindow(1f, 2f, WindowSize.COMPACT))
@@ -28,7 +32,8 @@ class MainActivity : ComponentActivity() {
             App(
                 applicationWindowSize = windowSizeState,
                 darkTheme = isSystemInDarkTheme(),
-                dynamicColor = true
+                dynamicColor = true,
+                getKoin()
             )
         }
     }

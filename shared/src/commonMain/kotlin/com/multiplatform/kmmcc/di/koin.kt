@@ -21,7 +21,6 @@ import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavori
 import com.multiplatform.kmmcc.platformKoinModule
 import com.multiplatform.kmmcc.presentation.components.conversion.CurrencyConversionViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 
@@ -49,7 +48,6 @@ internal fun applicationKoinComponentModules(
             provideDatabase(sqlDriver)
 
 internal fun provideDispatchers() = module {
-    single { Dispatchers.IO }
     single { Dispatchers.Main }
     single { Dispatchers.Default }
 }

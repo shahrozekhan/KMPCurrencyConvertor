@@ -21,9 +21,9 @@ ktor_version = "2.3.6"
 kotlinx-date = "0.3.3"
 
 #kotlinx-coroutines.
-coroutines-version = "1.7.3"
+coroutines-version = "1.8.0-RC2"
 #desktop
-coroutines-desktop-version = "1.7.3"
+coroutines-desktop-version = "1.8.0-RC2"
 
 
 #sql delight version for database.
@@ -51,12 +51,12 @@ androidx-coreKtx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" 
 #mvvm-livedata = { module = "dev.icerock.moko:mvvm-livedata", version.ref = "mvvmCore" }
 #mvvm-livedata-resources = { module = "dev.icerock.moko:mvvm-livedata-resources", version.ref = "mvvmCore" }
 
-mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mvvmCore" }
+#mvvm-compose = { group = "dev.icerock.moko", name = "mvvm-compose", version.ref = "mvvmCore" }
 mvvm-core = { group = "dev.icerock.moko", name = "mvvm-core", version.ref = "mvvmCore" }
-mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow", version.ref = "mvvmCore" }
-mvvm-flow-compose = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "mvvmCore" }
-mvvm-livedata-compose = { group = "dev.icerock.moko", name = "mvvm-livedata-compose", version.ref = "mvvmCore" }
-mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "mvvmCore" }
+#mvvm-flow = { group = "dev.icerock.moko", name = "mvvm-flow", version.ref = "mvvmCore" }
+#mvvm-flow-compose = { group = "dev.icerock.moko", name = "mvvm-flow-compose", version.ref = "mvvmCore" }
+#mvvm-livedata-compose = { group = "dev.icerock.moko", name = "mvvm-livedata-compose", version.ref = "mvvmCore" }
+#mvvm-state = { group = "dev.icerock.moko", name = "mvvm-state", version.ref = "mvvmCore" }
 
 
 #ktor Networking Library:
@@ -75,6 +75,7 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor_version" }
 #ktor-java = { group = "io.ktor", name="ktor-client-java", version.ref = "ktor_version" }
 ktor-cio = { group = "io.ktor", name="ktor-client-cio", version.ref = "ktor_version" }
+ktor-js = { group = "io.ktor", name="ktor-client-js", version.ref = "ktor_version" }
 
 #koin for kotlin:
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -85,7 +86,7 @@ koin-androidx-compose = { group = "io.insert-koin", name = "koin-androidx-compos
 
 #Kotlinx Corountines:
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines-version" }
-kotlinx-coroutines-desktop = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines-desktop-version" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines-desktop-version" }
 
 #kotlinx date library:
 kotlinx-date = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinx-date" }
@@ -95,6 +96,7 @@ kmp-sqldelight = { group = "app.cash.sqldelight", name = "runtime", version.ref 
 kmp-sqldelight-android = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqlDelightVersion" }
 kmp-sqldelight-ios = { group = "app.cash.sqldelight", name = "native-driver", version.ref = "sqlDelightVersion" }
 kmp-sqldelight-jvm = { group = "app.cash.sqldelight", name = "sqlite-driver", version.ref = "sqlDelightVersion" }
+kmp-sqldelight-web = { group = "app.cash.sqldelight", name = "web-worker-driver", version.ref = "sqlDelightVersion" }
 
 #Voyager library:
 voyager-navigator = { group = "cafe.adriel.voyager", name = "voyager-navigator", version.ref = "voyager" }
@@ -118,7 +120,7 @@ sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelightVersion" }
 
 [bundles]
 ktor = ["ktor-serialization-kotlinx-json", "ktor-core", "ktor-client-content-negotiation", "ktor-client-logging"]
-moko = ["mvvm-compose", "mvvm-core", "mvvm-flow", "mvvm-flow-compose", "mvvm-state"]
+moko = ["mvvm-core"]
 koin = ["koin-core", "koin-compose"]
-voyager = ["voyager-navigator", "voyager-bottomSheetNavigator", "voyager-tabNavigator", "voyager-transitions"]
+voyager = ["voyager-navigator", "voyager-transitions"]
 android-koin = ["koin-androidx-compose", "koin-android"]

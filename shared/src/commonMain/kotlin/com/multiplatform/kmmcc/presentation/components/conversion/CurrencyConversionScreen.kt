@@ -38,6 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -71,16 +72,18 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.koin.core.Koin
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalResourceApi::class)
 @ExperimentalMaterial3Api
 @Composable
-fun CurrencyConversionScreen(windowInfo: MutableState<WindowInfo>) {
-    val viewModel: CurrencyConversionViewModel = koinInject<CurrencyConversionViewModel>()
-    val currencyRateState = viewModel.exchangeRateViewState.value
+fun CurrencyConversionScreen(
+    windowInfo: MutableState<WindowInfo>,
+    viewModel: CurrencyConversionViewModel
+) {
+//    val viewModel: CurrencyConversionViewModel = koinInject<CurrencyConversionViewModel>()
     val snackBarHostState = remember { SnackbarHostState() }
     val localCoroutineScope = rememberCoroutineScope()
-
     LaunchedEffect(Unit) {
         viewModel.commonEventFlow.collect {
             when (it) {
@@ -100,6 +103,7 @@ fun CurrencyConversionScreen(windowInfo: MutableState<WindowInfo>) {
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) }
     ) {
+        val currencyRateState = viewModel.exchangeRateViewState.collectAsState().value
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -296,10 +300,10 @@ fun ExpandedDropDownView(
 
         Column {
             VerticalDivider(dp = 8.dp)
-            Row (horizontalArrangement = Arrangement.spacedBy(10.dp)){
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
 
                 FlowRow(
-                    Modifier.width(((windowInfo.value.windowWidth / 2)-20).dp),
+                    Modifier.width(((windowInfo.value.windowWidth / 2) - 20).dp),
                     currencyRateState.fromFavorites,
                 ) { index, exchangeRate ->
                     viewModel.onEvent(
@@ -311,7 +315,7 @@ fun ExpandedDropDownView(
                 }
 
                 FlowRow(
-                    Modifier.width(((windowInfo.value.windowWidth / 2)-16).dp),
+                    Modifier.width(((windowInfo.value.windowWidth / 2) - 16).dp),
                     currencyRateState.toFavorites,
                 ) { index, exchangeRate ->
                     viewModel.onEvent(

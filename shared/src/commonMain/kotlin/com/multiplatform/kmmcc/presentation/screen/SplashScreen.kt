@@ -7,7 +7,7 @@ import com.multiplatform.kmmcc.common.enums.WindowSize
 import com.multiplatform.kmmcc.presentation.components.spash.Splash
 import kotlinx.serialization.Serializable
 
-@Serializable
+//@Serializable
 class SplashScreen() : Screen {
     @Composable
     override fun Content() {

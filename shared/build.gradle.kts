@@ -1,4 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -10,6 +12,28 @@ plugins {
 }
 
 kotlin {
+
+    js {
+        moduleName = "shared"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "shared.js"
+            }
+        }
+        binaries.executable()
+    }
+
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "shared"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "shared.js"
+//            }
+//        }
+//        binaries.executable()
+//    }
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -17,6 +41,7 @@ kotlin {
             }
         }
     }
+
     jvm("desktop") {
         compilations.all {
             kotlinOptions {
@@ -32,8 +57,8 @@ kotlin {
     targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java).all {
         binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
             export("dev.icerock.moko:mvvm-core:0.16.1")
-            export("dev.icerock.moko:mvvm-flow:0.16.1")
-            export("dev.icerock.moko:mvvm-state:0.16.1")
+//            export("dev.icerock.moko:mvvm-flow:0.16.1")
+//            export("dev.icerock.moko:mvvm-state:0.16.1")
         }
     }
 
@@ -47,8 +72,8 @@ kotlin {
             baseName = "MultiPlatformLibrary"
             isStatic = true
             export("dev.icerock.moko:mvvm-core:0.16.1")
-            export("dev.icerock.moko:mvvm-flow:0.16.1")
-            export("dev.icerock.moko:mvvm-state:0.16.1")
+//            export("dev.icerock.moko:mvvm-flow:0.16.1")
+//            export("dev.icerock.moko:mvvm-state:0.16.1")
 
 //            extraSpecAttributes["resources"] = "['src/commonMain/resources/**', 'src/iosMain/resources/**']"
 //            extraSpecAttributes["exclude_files"] = "['src/commonMain/resources/**', 'src/iosMain/resources/MR/**']"
@@ -108,14 +133,27 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.ktor.cio)
             implementation(libs.kmp.sqldelight.jvm)
-            implementation(libs.kotlinx.coroutines.desktop)
+            implementation(libs.kotlinx.coroutines.swing)
 //            implementation("ch.qos.logback:logback-classic:1.2.3")
-//            implementation ("org.slf4j:slf4j-log4j12:1.7.29")
+            implementation("org.slf4j:slf4j-log4j12:1.7.29")
+
+        }
+
+        jsMain.dependencies {
+            implementation(compose.html.core)
+            implementation(compose.html.svg)
+            implementation(libs.ktor.js)
+            implementation(libs.kmp.sqldelight.web)
+            implementation(compose.runtime)
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+            implementation(npm("@cashapp/sqldelight-sqljs-worker", "2.0.1"))
+            implementation(npm("sql.js", "1.8.0"))
 
         }
 
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+
         }
     }
 }
@@ -139,17 +177,6 @@ android {
 //Donot change the following...
 val applicationDB = "ApplicationDB"
 
-sqldelight {
-    databases {
-        create(applicationDB) {
-            packageName = "com.multiplatform.kmmcc.database"
-            srcDirs.setFrom("src/commonMain/sqldelight")
-            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
-            version = 1
-        }
-    }
-}
-
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -158,12 +185,28 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.multiplatform.kmmcc"
             packageVersion = "1.0.0"
-            windows {
-                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
-            }
-            macOS {
-                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
-            }
+//            windows {
+//                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
+//            }
+//            macOS {
+//                iconFile.set(project.file("src/commonMain/composeResources/launcher_jvm.webp"))
+//            }
+        }
+    }
+}
+
+compose.experimental {
+    web.application {}
+}
+
+sqldelight {
+    databases {
+        create(applicationDB) {
+            packageName = "com.multiplatform.kmmcc.database"
+            srcDirs.setFrom("src/commonMain/sqldelight")
+            schemaOutputDirectory.set(file("src/commonMain/sqldelight/databases"))
+            version = 1
+            generateAsync = true
         }
     }
 }

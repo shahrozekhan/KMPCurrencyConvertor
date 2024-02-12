@@ -20,15 +20,13 @@ fun main() = application {
         state = windowState,
         title = "DesktopVersion"
     ) {
-        LaunchedEffect(Unit) {
-            injectKoin(Properties(), ExchangeRateDriverFactory().createDriver())
-        }
         windowSize.value =
             WindowSize.basedOnCurrenDimension(windowState.size.width, windowState.size.height)
         App(
             applicationWindowSize = windowSize,
             darkTheme = false,
-            dynamicColor = false
+            dynamicColor = false,
+            injectKoin(Properties(), ExchangeRateDriverFactory().createDriver()).koin
         )
     }
 }

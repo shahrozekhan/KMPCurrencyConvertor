@@ -41,8 +41,8 @@ class ExchangeRateRepositoryImpl(
                     exchangeRate.data?.rates,
                     symbols.data?.symbols
                 )
-            insertExchangeRatesToDatabase(listOfExchangeRate)
-            appPreferences.timeStamp = exchangeRate.data?.timestamp.toString()
+//            insertExchangeRatesToDatabase(listOfExchangeRate)
+//            appPreferences.timeStamp = exchangeRate.data?.timestamp.toString()
             Resource.Success(listOfExchangeRate)
         } else {
             if (exchangeRate is Resource.Error)

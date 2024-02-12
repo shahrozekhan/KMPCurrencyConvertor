@@ -6,7 +6,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.screen.Screen
 import com.multiplatform.kmmcc.common.enums.WindowSize
+import com.multiplatform.kmmcc.koinG
 import com.multiplatform.kmmcc.presentation.components.conversion.CurrencyConversionScreen
+import com.multiplatform.kmmcc.presentation.components.conversion.CurrencyConversionViewModel
 import com.multiplatform.kmmcc.windowSize
 import kotlinx.serialization.Serializable
 
@@ -14,7 +16,7 @@ class CurrencyConvertorScreen(/*private val windowSize: MutableState<WindowSize>
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        CurrencyConversionScreen(windowSize)
+        CurrencyConversionScreen(windowSize, koinG.get<CurrencyConversionViewModel>())
     }
 
 }

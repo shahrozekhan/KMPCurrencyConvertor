@@ -10,3 +10,5 @@ class JVMPlatform: Platform {
 actual fun getPlatform(): Platform = JVMPlatform()
 
 actual fun platformKoinModule() = module { single { CIO.create() } }
+
+actual fun databaseName(): String = "desktop_app_db.db"

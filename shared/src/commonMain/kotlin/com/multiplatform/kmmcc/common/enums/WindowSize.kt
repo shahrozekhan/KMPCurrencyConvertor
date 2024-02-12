@@ -16,19 +16,19 @@ enum class WindowSize {
             return when {
                 windowWidth < 420.dp -> CompactWindow(
                     windowWidth.value,
-                    windowWidth.value,
+                    windowHeight.value,
                     COMPACT
                 )
 
                 windowWidth < 580.dp -> MediumWindow(
                     windowWidth.value,
-                    windowWidth.value,
+                    windowHeight.value,
                     COMPACT
                 )
 
                 else -> ExpandedWindow(
                     windowWidth.value,
-                    windowWidth.value,
+                    windowHeight.value,
                     COMPACT
                 )
             }

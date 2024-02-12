@@ -10,9 +10,16 @@ import com.multiplatform.kmmcc.domain.usecases.favorite.GetToFavoriteExchangeRat
 import com.multiplatform.kmmcc.domain.usecases.favorite.MarkExchangeRateToFavoriteUseCase
 import com.multiplatform.kmmcc.presentation.CommonScreenEvent
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -23,14 +30,16 @@ class CurrencyConversionViewModel(
     private val convertExchangeRateUseCase: ConvertListOfExchangeRateUseCase,
     private val getExchangeRateUseCase: GetExchangeRateUseCase
 ) : ViewModel() {
-
+    val corroutine=CoroutineScope(Dispatchers.Main)
     init {
-        loadFavoriteExchangeRate()
         loadExchangeRate()
+//        loadFavoriteExchangeRate()
     }
 
-    private val _mutableExchangeRateViewState = mutableStateOf(CurrencyConversionScreenState())
-    val exchangeRateViewState: State<CurrencyConversionScreenState> = _mutableExchangeRateViewState
+    private val _mutableExchangeRateViewState =
+        MutableStateFlow<CurrencyConversionScreenState>(CurrencyConversionScreenState())
+    val exchangeRateViewState: StateFlow<CurrencyConversionScreenState> =
+        _mutableExchangeRateViewState.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<CommonScreenEvent>()
     val commonEventFlow = _eventFlow.asSharedFlow()
@@ -68,7 +77,7 @@ class CurrencyConversionViewModel(
             }
 
             is CurrencyConversionScreenEvent.RemoveCurrencyFromExchangeRates -> {
-                viewModelScope.launch {
+                corroutine.launch {
                     val newFavoritesList = exchangeRateViewState.value.fromFavorites.toMutableList()
                     newFavoritesList.removeAt(event.index)
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
@@ -78,7 +87,7 @@ class CurrencyConversionViewModel(
             }
 
             is CurrencyConversionScreenEvent.RemoveCurrencyToExchangeRates -> {
-                viewModelScope.launch {
+                corroutine.launch {
                     val newFavoritesList = exchangeRateViewState.value.toFavorites.toMutableList()
                     newFavoritesList.removeAt(event.index)
                     _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
@@ -119,11 +128,11 @@ class CurrencyConversionViewModel(
 //                            )
 //                        }
 //                    }
-//                }.launchIn(viewModelScope)
+//                }.launchIn(corroutine)
             }
 
             is CurrencyConversionScreenEvent.ConvertCurrencyConversion -> {
-                viewModelScope.launch {
+                corroutine.launch {
                     markExchangeRateToFavoriteUseCase.invoke(
                         exchangeRateViewState.value.toFavorites,
                         exchangeRateViewState.value.fromFavorites
@@ -158,58 +167,95 @@ class CurrencyConversionViewModel(
         )
     }
 
-    private fun loadExchangeRate() {
-        getExchangeRateUseCase().onEach {
-            when (it) {
-                is Resource.Success -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isCurrenciesLoading = false, listOfCurrency = it.data, errorMessage = ""
-                    )
-                }
+    private fun loadExchangeRate(onCompleteLoading: () -> Unit = {}) {
+        corroutine.launch {
+            getExchangeRateUseCase().collect {
+                when (it) {
+                    is Resource.Success -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isCurrenciesLoading = false, listOfCurrency = it.data, errorMessage = ""
+                        )
+                    }
 
-                is Resource.Error -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isCurrenciesLoading = false, errorMessage = it.message
-                    )
-                    showSnackBarError(exchangeRateViewState.value.errorMessage)
+                    is Resource.Error -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isCurrenciesLoading = false, errorMessage = it.message
+                        )
+                        showSnackBarError(exchangeRateViewState.value.errorMessage)
 
-                }
+                    }
 
-                is Resource.Loading -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isCurrenciesLoading = true, errorMessage = ""
-                    )
+                    is Resource.Loading -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isCurrenciesLoading = true, errorMessage = ""
+                        )
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+            getToFavoriteExchangeRateUseCase().collect {
+                when (it) {
+                    is Resource.Success -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = false,
+                            toFavorites = it.data!!.first,
+                            fromFavorites = it.data.second,
+                        )
+                        onCompleteLoading.invoke()
+                    }
+
+                    is Resource.Loading -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = true
+                        )
+                    }
+
+                    is Resource.Error -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = false
+                        )
+                        showSnackBarError(it.message)
+                    }
+                }
+            }
+        }
     }
 
     private fun loadFavoriteExchangeRate(onCompleteLoading: () -> Unit = {}) {
-        getToFavoriteExchangeRateUseCase().onEach {
-            when (it) {
-                is Resource.Success -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isFavoriteLoading = false,
-                        toFavorites = it.data!!.first,
-                        fromFavorites = it.data.second,
-                    )
-                    onCompleteLoading.invoke()
-                }
+        corroutine.launch {
+            getToFavoriteExchangeRateUseCase().collectLatest {
+                when (it) {
+                    is Resource.Success -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = false,
+                            toFavorites = it.data!!.first,
+                            fromFavorites = it.data.second,
+                        )
+                        onCompleteLoading.invoke()
+                    }
 
-                is Resource.Loading -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isFavoriteLoading = true
-                    )
-                }
+                    is Resource.Loading -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = true
+                        )
+                    }
 
-                is Resource.Error -> {
-                    _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
-                        isFavoriteLoading = false
-                    )
-                    showSnackBarError(it.message)
+                    is Resource.Error -> {
+                        _mutableExchangeRateViewState.value = exchangeRateViewState.value.copy(
+                            isFavoriteLoading = false
+                        )
+                        showSnackBarError(it.message)
+                    }
                 }
             }
-        }.launchIn(viewModelScope)
+        }
+//        getToFavoriteExchangeRateUseCase().onEach {
+//
+//        }.launchIn(corroutine)
+    }
+
+    override fun onCleared() {
+        corroutine.cancel()
+        super.onCleared()
     }
 
 }

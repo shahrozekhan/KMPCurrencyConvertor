@@ -8,14 +8,15 @@ import platform.UIKit.UIUserInterfaceStyle
 import platform.darwin.NSObject
 
 fun MainViewController() = ComposeUIViewController {
-    injectKoin(NSObject(), ExchangeRateDriverFactory().createDriver())
+
 
     val isDarkTheme =
         UIScreen.mainScreen.traitCollection.userInterfaceStyle ==
                 UIUserInterfaceStyle.UIUserInterfaceStyleDark
     App(
         darkTheme = isDarkTheme,
-        dynamicColor = false
+        dynamicColor = false,
+        koin = injectKoin(NSObject(), ExchangeRateDriverFactory().createDriver()).koin
     )
 
 }

@@ -9,7 +9,7 @@ actual class ExchangeRateDriverFactory {
     actual fun createDriver(): SqlDriver {
         val driver: SqlDriver = JdbcSqliteDriver(
             "jdbc:sqlite:src/desktopMain/${databaseName()}",
-            schema = ApplicationDB.Schema
+//            schema = ApplicationDB.Schema
         )
         try {
             ApplicationDB.Schema.create(driver)

@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 object ExchangeRateHttpConstants {
     const val baseUrl = "api.exchangeratesapi.io"
-    const val exchangeRateApiKey = "4355559f6761df5c780bb287da4a93e5"
+    const val exchangeRateApiKey = "b808a6a17c34148a35c45b6d29333dca"
 }
 
 val httpClientModule = module {
