@@ -188,3 +188,9 @@ iosApp/iosApp.xcodeproj/project.xcworkspace/xcuserdata/shahroze.xcuserdatad/User
 /.idea/codeStyles/Project.xml
 /shared/src/desktopMain/app.db
 /shared/src/desktopMain/desktop_app_db.db
+/.idea/appInsightsSettings.xml
+/.idea/artifacts/shared_desktop_1.xml
+/.idea/artifacts/shared_desktop_2.xml
+/.idea/artifacts/shared_js.xml
+/.idea/artifacts/shared_js_1.xml
+/kotlin-js-store/yarn.lock
